@@ -1,0 +1,40 @@
+const inputData = () => {
+  const input = require("fs");
+  const data = input
+    .readFileSync("/dev/stdin")
+    .toString()
+    .split("\n");
+  const [N, M] = data[0].split(" ").map((num) => parseInt(num));
+  const numbers = data[1]
+    .split(" ")
+    .map((num) => parseInt(num))
+    .sort((a, b) => {
+      if (a > b) return 1;
+      if (a < b) return -1;
+      return 0;
+    });
+  return [N, M, numbers];
+};
+
+const [N, M, numbers] = inputData();
+const answerList = [];
+
+const findSequence = (answer = []) => {
+  if (answer.length === M) {
+    answerList.push(answer.join(" "));
+    return;
+  } else {
+    for (let i = 0; i < N; i++) {
+      answer.push(numbers[i]);
+      findSequence(answer);
+      answer.pop();
+    }
+  }
+};
+
+const main = () => {
+  findSequence();
+  console.log(answerList.join("\n"));
+};
+
+main();
