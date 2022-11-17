@@ -16,7 +16,7 @@ int main(void) {
   cin >> t;
   while (t--) {
     cin >> n;
-    for (int i = 0; i < n; i++) fill(dist[i], dist[i] + n, -1);
+    memset(dist, -1, sizeof(dist));
     cin >> x >> y;
     dist[x][y] = 0;
     Q.push({x, y});
