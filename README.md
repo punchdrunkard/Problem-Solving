@@ -10,7 +10,7 @@
 |   [BOJ 2206](https://www.acmicpc.net/problem/2206)   | [벽 부수고 이동하기 오답노트](https://github.com/dar-jeeling/Problem-Solving/blob/main/%EB%B0%B1%EC%A4%80/Gold/2206.%E2%80%85%EB%B2%BD%E2%80%85%EB%B6%80%EC%88%98%EA%B3%A0%E2%80%85%EC%9D%B4%EB%8F%99%ED%95%98%EA%B8%B0/%EB%B2%BD-%EB%B6%80%EC%88%98%EA%B3%A0-%EC%9D%B4%EB%8F%99%ED%95%98%EA%B8%B0-%EC%98%A4%EB%8B%B5%EB%85%B8%ED%8A%B8.md) |
 
 ## 내용 정리
-- 그래프에서 `cycle` 구하는 방법
+- [그래프에서 `cycle` 구하는 방법](https://github.com/dar-jeeling/Problem-Solving/blob/main/%EC%96%B4%EB%A0%A4%EC%9A%B4%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/00_Cycle.md)
 
 ## BOJ
 
