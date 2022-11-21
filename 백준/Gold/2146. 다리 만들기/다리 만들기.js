@@ -1,76 +1,99 @@
-function makeBridge(edgeSea) {
-  let result = Infinity;
+const fs = require("fs");
+const stdin = fs.readFileSync("/dev/stdin").toString().trim().split("\n");
 
-  while (edgeSea.length) {
-    const [x, y, number] = edgeSea.shift();
+const input = (() => {
+  let line = 0;
+  return () => stdin[line++];
+})();
 
-    for (let k = 0; k < 4; k++) {
-      let nx = x + dx[k];
-      let ny = y + dy[k];
-      if (0 <= nx && 0 <= ny && nx < n && ny < n) {
-        if (!board[nx][ny]) {
-          board[nx][ny] = number;
-          distance[nx][ny] = distance[x][y] + 1;
-          edgeSea.push([nx, ny, number]);
-        } else if (board[nx][ny] !== number) {
-          result = Math.min(result, distance[nx][ny] + distance[x][y]);
+const n = parseInt(stdin[0]);
+const graph = stdin.slice(1).map((line) => {
+  return line.split(" ");
+});
+
+const makeArray = (elem) => {
+  return Array.from(new Array(n), () => new Array(n).fill(elem));
+};
+
+let visited = makeArray(false);
+const islands = makeArray(0);
+const dist = makeArray(0);
+const edgesQ = [];
+const dx = [0, 0, -1, 1];
+const dy = [-1, 1, 0, 0];
+
+let number = 1;
+
+const isValidRange = (x, y) => {
+  return 0 <= x && x < n && 0 <= y && y < n;
+};
+
+const divisionIslands = () => {
+  const bfs = (x, y, number) => {
+    const q = [];
+    q.push([x, y]);
+    islands[x][y] = number;
+    visited[x][y] = true;
+
+    while (q.length) {
+      const [currentX, currentY] = q.shift();
+
+      let isEdge = false;
+
+      for (let dir = 0; dir < 4; dir++) {
+        const [nextX, nextY] = [currentX + dx[dir], currentY + dy[dir]];
+
+        if (!isValidRange(nextX, nextY)) continue;
+        if (visited[nextX][nextY]) continue;
+        if (graph[nextX][nextY] === "0") {
+          isEdge = true;
+          continue;
         }
-      }
-    }
-  }
-  console.log(result);
-}
 
-function numbering() {
-  let edgeSea = [];
-  let number = 1;
+        islands[nextX][nextY] = number;
+        visited[nextX][nextY] = true;
+        q.push([nextX, nextY]);
+      }
+
+      isEdge && edgesQ.push([currentX, currentY, number]);
+    }
+  };
 
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
-      if (board[i][j] === 1 && !visited[i][j]) {
-        visited[i][j] = true;
-        board[i][j] = number;
-
-        let q = [[i, j]];
-
-        while (q.length) {
-          const [x, y] = q.shift();
-
-          for (let k = 0; k < 4; k++) {
-            let nx = x + dx[k];
-            let ny = y + dy[k];
-
-            if (0 <= nx && 0 <= ny && nx < n && ny < n && !visited[nx][ny]) {
-              if (board[nx][ny] === 1) {
-                q.push([nx, ny]);
-                board[nx][ny] = number;
-                visited[nx][ny] = true;
-              } else if (board[nx][ny] === 0) {
-                edgeSea.push([x, y, number]);
-              }
-            }
-          }
-        }
-        number++;
+      if (graph[i][j] !== "0" && !visited[i][j]) {
+        bfs(i, j, number);
+        number += 1;
       }
     }
   }
-  makeBridge(edgeSea);
-}
+};
 
-let input = require("fs")
-  .readFileSync("/dev/stdin")
-  .toString()
-  .trim()
-  .split("\n");
+const calculateDist = () => {
+  let answer = Infinity;
 
-const n = +input[0];
-const board = input.slice(1).map((str) => str.split(" ").map(Number));
+  while (edgesQ.length) {
+    const [currentX, currentY, number] = edgesQ.shift();
 
-let visited = Array.from(Array(n), () => new Array(n).fill(false));
-let distance = Array.from(Array(n), () => new Array(n).fill(0));
+    for (let dir = 0; dir < 4; dir++) {
+      const [nextX, nextY] = [currentX + dx[dir], currentY + dy[dir]];
+      if (!isValidRange(nextX, nextY)) continue;
 
-const dx = [1, -1, 0, 0];
-const dy = [0, 0, -1, 1];
+      if (islands[nextX][nextY] === 0) {
+        islands[nextX][nextY] = number;
+        dist[nextX][nextY] = dist[currentX][currentY] + 1;
+        edgesQ.push([nextX, nextY, number]);
+      } else if (islands[nextX][nextY] !== number) {
+        answer = Math.min(
+          answer,
+          dist[currentX][currentY] + dist[nextX][nextY]
+        );
+      }
+    }
+  }
 
-numbering();
+  console.log(answer);
+};
+
+divisionIslands();
+calculateDist();
