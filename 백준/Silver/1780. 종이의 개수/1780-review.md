@@ -99,3 +99,7 @@ void func(int n, int r, int c) {
   }
 }  // end of func
 ```
+
+# 비슷한 문제
+
+- [백준 2630 색종이 만들기](https://www.acmicpc.net/problem/2630)
