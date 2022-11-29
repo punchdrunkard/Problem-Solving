@@ -10,6 +10,7 @@
 |   [BOJ 2206](https://www.acmicpc.net/problem/2206)   | [벽 부수고 이동하기 오답노트](https://github.com/dar-jeeling/Problem-Solving/blob/main/%EB%B0%B1%EC%A4%80/Gold/2206.%E2%80%85%EB%B2%BD%E2%80%85%EB%B6%80%EC%88%98%EA%B3%A0%E2%80%85%EC%9D%B4%EB%8F%99%ED%95%98%EA%B8%B0/%EB%B2%BD-%EB%B6%80%EC%88%98%EA%B3%A0-%EC%9D%B4%EB%8F%99%ED%95%98%EA%B8%B0-%EC%98%A4%EB%8B%B5%EB%85%B8%ED%8A%B8.md) |
 |   [BOJ 2146](https://www.acmicpc.net/problem/2146)   |                                             [다리 만들기 오답노트](https://github.com/dar-jeeling/Problem-Solving/blob/main/%EB%B0%B1%EC%A4%80/Gold/2146.%E2%80%85%EB%8B%A4%EB%A6%AC%E2%80%85%EB%A7%8C%EB%93%A4%EA%B8%B0/%EB%8B%A4%EB%A6%AC-%EB%A7%8C%EB%93%A4%EA%B8%B0-%EC%98%A4%EB%8B%B5.md)                                              |
 |  [BOJ 13549](https://www.acmicpc.net/problem/13549)  |                                             [숨바꼭질 3 오답노트](https://github.com/dar-jeeling/Problem-Solving/blob/main/%EB%B0%B1%EC%A4%80/Gold/13549.%E2%80%85%EC%88%A8%EB%B0%94%EA%BC%AD%EC%A7%88%E2%80%853/%EC%88%A8%EB%B0%94%EA%BC%AD%EC%A7%883-%EC%98%A4%EB%8B%B5%EB%85%B8%ED%8A%B8.md)                                             |
+|  [BOJ 1780](https://www.acmicpc.net/problem/13549)   |                                                                       [종이의 개수 오답노트](https://github.com/dar-jeeling/Problem-Solving/tree/main/%EB%B0%B1%EC%A4%80/Silver/1780.%E2%80%85%EC%A2%85%EC%9D%B4%EC%9D%98%E2%80%85%EA%B0%9C%EC%88%98/1780-review.md)                                                                        |
 
 ## 어려운 내용 정리
 
