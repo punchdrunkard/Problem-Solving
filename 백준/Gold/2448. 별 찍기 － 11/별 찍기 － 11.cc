@@ -1,7 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-char answer[3200][6300];
+#define MAX 3 * 1024
+
+char answer[MAX][2 * MAX - 1];
 int n;
 
 void fillBaseCase(int r, int c) {
