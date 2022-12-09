@@ -1,3 +1,5 @@
+// 백트래킹을 이용한 풀이
+
 const inputData = () => {
   const input = require("fs");
   const data = input

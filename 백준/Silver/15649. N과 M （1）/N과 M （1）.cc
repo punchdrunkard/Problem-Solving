@@ -1,3 +1,5 @@
+// next_permutation 을 이용한 풀이
+
 #include <bits/stdc++.h>
 using namespace std;
 
