@@ -6,12 +6,13 @@ using namespace std;
 
 int n, m;
 int graph[MAX][MAX];
-int dist[MAX][MAX];
-int visited[MAX][MAX];
+int dist[MAX][MAX];  // 해당 좌표에서 최대 몇 번 동전을 움직일 수 있는지를 저장
+int visited[MAX][MAX];  // 백트래킹을 위한 배열
 
 int dx[4] = {-1, 0, 1, 0};
 int dy[4] = {0, -1, 0, 1};
 
+// 함수의 정의 : 해당 좌표에서 부터 갈 수 있는 최댓값까지 간다.
 int dfs(int x, int y) {
   if (dist[x][y]) return dist[x][y];
   visited[x][y] = true;
