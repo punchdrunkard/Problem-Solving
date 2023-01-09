@@ -6,14 +6,14 @@ using namespace std;
 
 int n, m;
 int graph[MAX][MAX];
-int dist[MAX][MAX];
+int dp[MAX][MAX];
 int visited[MAX][MAX];
 
 int dx[4] = {-1, 0, 1, 0};
 int dy[4] = {0, -1, 0, 1};
 
 int dfs(int x, int y) {
-  if (dist[x][y]) return dist[x][y];
+  if (dp[x][y]) return dp[x][y];
   visited[x][y] = true;
 
   for (int i = 0; i < 4; i++) {
@@ -27,11 +27,11 @@ int dfs(int x, int y) {
     if (visited[nx][ny]) return -2;
     int ret = dfs(nx, ny);
     if (ret == -2) return ret;
-    dist[x][y] = max(dist[x][y], ret + 1);
+    dp[x][y] = max(dp[x][y], ret + 1);
   }
 
   visited[x][y] = false;
-  return dist[x][y];
+  return dp[x][y];
 }
 
 int main(void) {
