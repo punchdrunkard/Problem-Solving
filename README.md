@@ -23,9 +23,4 @@
 - [맨날 까먹는 자바스크립트 문법 모음](https://github.com/dar-jeeling/Problem-Solving/blob/main/%EA%B0%84%EB%8B%A8%ED%95%9C%20%EB%85%B8%ED%8A%B8/javascript_grammar.md)
 - [C++ 토큰 처리 기법](https://github.com/dar-jeeling/Problem-Solving/blob/main/template/utils/token.cpp)
 
-## BOJ
-
-[![Solved.ac
-프로필](http://mazassumnida.wtf/api/v2/generate_badge?boj=sky_rabbit)](https://solved.ac/sky_rabbit)
-
-This is a auto push repository for Baekjoon Online Judge created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
+## 알고리즘 / 자료 구조 기술 면접
