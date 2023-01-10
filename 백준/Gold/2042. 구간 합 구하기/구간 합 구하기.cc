@@ -1,51 +1,61 @@
-#include <iostream>
-#include <cmath>
+#include <bits/stdc++.h>
 using namespace std;
-long long *tree;
-long long arr[1000001];
 
-long long init(int node, int start, int end){
-    if(start==end) return tree[node] = arr[start];
-    int mid = (start+end)/2;
-    return tree[node] = init(2*node,start,mid)+init(2*node+1,mid+1,end);
+void update(int n, long long v, vector<long long> &tree, int PIV) {
+  n += PIV;
+  tree[n] = v;
+  n /= 2;
+  while (n > 0) {
+    // 조상 = 왼쪽 자식 + 오른쪽 자식
+    tree[n] = tree[n * 2] + tree[n * 2 + 1];
+    n /= 2;  // 윗 조상으로 옮김
+  }
 }
 
-long long sum(int node, int start, int end, int left, int right){
-    if(left>end || right<start) return 0;
-    if(left<=start && end<=right) return tree[node];
-    int mid = (start+end)/2;
-    return sum(node*2,start,mid,left,right) + sum(node*2+1,mid+1,end,left,right);
-}
-
-void update(int node, int start, int end, int idx, long long diff){
-    if(idx<start || idx>end) return;
-    tree[node]+=diff;
-    if(start==end) return;
-    int mid = (start+end)/2;
-    update(node*2,start,mid,idx,diff);
-    update(node*2+1,mid+1,end,idx,diff);
+long long query(int l, int r, vector<long long> &tree, int PIV) {
+  long long ret = 0;
+  l += PIV, r += PIV;
+  while (l <= r) {
+    if (l % 2 == 1) ret += tree[l++];  // l이 홀수 일 때
+    if (r % 2 == 0) ret += tree[r--];  // r이 짝수 일 떄
+    l /= 2, r /= 2;
+  }
+  return ret;
 }
 
 int main() {
-    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-    int num,m,k,a,b;
-    long long c;
-    cin>>num>>m>>k;
-    int height = ceil(log2(num));
-    tree = new long long[1<<(height+1)];
-    for(int i=0;i<num;i++)
-        cin>>arr[i];
-    init(1,0,num-1);
-    
-    for(int i=0;i<m+k;i++){
-        cin>>a>>b>>c;
-        if(a==1){   //b->c로 변환
-            long long diff = c-arr[b-1];
-            arr[b-1]=c;
-            update(1,0,num-1,b-1,diff);
-        }
-        else if(a==2)      //b~c합
-            cout << sum(1,0,num-1,b-1,c-1)<<'\n';
+  ios::sync_with_stdio(0);
+  cin.tie(0);
+
+  int n, m, k;
+  cin >> n >> m >> k;
+
+  // PIV 는 n 을 넘는 2의 배수이다.
+  int PIV = 1;
+  while (PIV <= n) PIV *= 2;
+
+  vector<long long> tree(PIV * 2);
+  fill(tree.begin(), tree.end(), 0);
+
+  // init
+  for (int i = 1; i <= n; i++) {
+    long long num;
+    cin >> num;
+    update(i, num, tree, PIV);
+  }
+
+  int a, b;
+  long long c;
+
+  for (int i = 0; i < m + k; i++) {
+    cin >> a >> b >> c;
+
+    if (a == 1) {
+      update(b, c, tree, PIV);
+    } else {
+      cout << query(b, (int)c, tree, PIV) << '\n';
     }
-    return 0;
+  }
+
+  return 0;
 }
