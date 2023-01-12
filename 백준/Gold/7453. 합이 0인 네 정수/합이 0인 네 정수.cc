@@ -29,6 +29,10 @@ int main() {
     }
   }
 
+  // a[i]+b[j]들을 저장할 ab 배열을 별도로 선언하지 않아도 되지만,
+  //  선언해서 정렬한 후 크기 순으로 탐색을 할 경우에는
+  // cache hit이 올라가서 속도가 빨라짐.
+
   sort(sumAB.begin(), sumAB.end());
   sort(sumCD.begin(), sumCD.end());
 
