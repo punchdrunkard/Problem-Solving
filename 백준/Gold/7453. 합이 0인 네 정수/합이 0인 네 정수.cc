@@ -20,26 +20,23 @@ void input() {
 int main() {
   input();
 
-  vector<long long> two;
+  vector<long long> sumAB, sumCD;
 
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
-      two.push_back(A[i] + B[j]);
+      sumAB.push_back(A[i] + B[j]);
+      sumCD.push_back(C[i] + D[j]);
     }
   }
 
-  sort(two.begin(), two.end());
+  sort(sumAB.begin(), sumAB.end());
+  sort(sumCD.begin(), sumCD.end());
 
   long long count = 0;
 
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      long long target = -(C[i] + D[j]);
-
-      count += (upper_bound(two.begin(), two.end(), target) -
-                lower_bound(two.begin(), two.end(), target));
-      ;
-    }
+  for (int i = 0; i < int(sumCD.size()); i++) {
+    count += (upper_bound(sumAB.begin(), sumAB.end(), -sumCD[i]) -
+              lower_bound(sumAB.begin(), sumAB.end(), -sumCD[i]));
   }
 
   cout << count;
