@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 20536 KB, 시간: 120 ms
+메모리: 55528 KB, 시간: 356 ms
 
 ### 분류
 
@@ -26,7 +26,7 @@
 
 <p>어? 누구지?</p>
 
-<p><img alt="" src="" style="height:184px; width:274px"></p>
+<p><img alt="" src="https://www.acmicpc.net/upload/201004/p2.PNG" style="height:184px; width:274px"></p>
 
 <p>오박사 : 나는 태초마을의 포켓몬 박사 오민식 박사라네. 다솜아, 포켓몬을 잡을 때는, 일단 상대 포켓몬의 체력을 적당히 바닥으로 만들어놓고 몬스터 볼을 던져야 한단다. 자, 내 포켓몬 이상해꽃으로 한번 잡아보렴. 포켓몬의 기술을 쓰는 것을 보고 포켓몬을 줄지 안줄지 결정을 하겠네. 자 한번 해보아라. 다솜아.</p>
 
@@ -50,7 +50,7 @@
 
 <p>오영식 : 어? 오박사님 얘는 누구인가요?</p>
 
-<p><img alt="" src="" style="height:182px; width:274px"></p>
+<p><img alt="" src="https://www.acmicpc.net/upload/201004/p4.PNG" style="height:182px; width:274px"></p>
 
 <p>오박사 : 얘는 너의 라이벌이 될 친구 이다솜이라고 하네. 자, 포켓몬을 한 마리 골라보도록 해봐라 다솜아. 레이디퍼스트 네가 먼저 골라봐라.</p>
 
@@ -96,17 +96,17 @@
 
 <p>이다솜 : 헐랭... 나를 우습게보네.... 한번 두고 보시지! 그럼 대결이닷!</p>
 
-<p><img alt="" src="" style="height:181px; width:274px"></p>
+<p><img alt="" src="https://www.acmicpc.net/upload/201004/pb.PNG" style="height:181px; width:274px"></p>
 
-<p><img alt="" src="" style="height:183px; width:274px"></p>
+<p><img alt="" src="https://www.acmicpc.net/upload/201004/pc.PNG" style="height:183px; width:274px"></p>
 
 <p><img alt="" src="" style="height:182px; width:274px"></p>
 
-<p><img alt="" src="" style="height:183px; width:274px"></p>
+<p><img alt="" src="https://www.acmicpc.net/upload/201004/pe.PNG" style="height:183px; width:274px"></p>
 
-<p><img alt="" src="" style="height:183px; width:274px"></p>
+<p><img alt="" src="https://www.acmicpc.net/upload/201004/pf.PNG" style="height:183px; width:274px"></p>
 
-<p><img alt="" src="" style="height:181px; width:274px"></p>
+<p><img alt="" src="https://www.acmicpc.net/upload/201004/pg.PNG" style="height:181px; width:274px"></p>
 
 <p><img alt="" src="" style="height:184px; width:274px"></p>
 
