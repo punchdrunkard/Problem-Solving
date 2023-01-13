@@ -11,6 +11,10 @@ int main() {
   cin >> n >> m;
 
   unordered_map<string, int> name_to_index;
+
+  // unordered_map을 활용할 수 있겠지만, 배열에서 인덱스로 가져오는 것이 빠르다.
+  // 배열의 인덱스로 둬도 아무 문제가 없는 상황이면 배열을 사용한다.
+
   string index_to_name[MAX];
 
   for (int i = 1; i <= n; i++) {
