@@ -59,6 +59,8 @@ const find = (a) => {
   // root 인 경우
   if (parent[a] === a) return a;
 
+  // find 의 정의가 a의 루트를 의미하므로, 
+  // 아래의 코드는 노드 a를 a의 루트에 다이렉트로 붙인다는 의미이다.
   result = find(a);
   parent[a] = result;
   return result;
