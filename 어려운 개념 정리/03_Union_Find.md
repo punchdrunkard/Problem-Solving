@@ -100,7 +100,7 @@ const union = (a, b) => {
     return;
   }
 
-  parent[a] = b;
+  parent[parent_a] = parent_b;
 };
 ```
 
