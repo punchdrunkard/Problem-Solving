@@ -10,6 +10,11 @@ const input = (() => {
 const op = stdin.slice(1).map((x) => parseInt(x));
 const answer = [];
 
+const isBigger = (a, b) => {
+  const [absA, absB] = [Math.abs(a), Math.abs(b)];
+  return absA === absB ? a > b : absA > absB;
+};
+
 class Heap {
   constructor() {
     this.heap = [];
@@ -23,20 +28,12 @@ class Heap {
     while (index != 1) {
       let parent = parseInt(index / 2);
 
-      if (Math.abs(this.heap[parent]) < Math.abs(this.heap[index])) {
-        break;
-      } else if (Math.abs(this.heap[parent]) == Math.abs(this.heap[index])) {
-        if (this.heap[parent] > this.heap[index]) {
-          [this.heap[parent], this.heap[index]] = [
-            this.heap[index],
-            this.heap[parent],
-          ];
-        }
-      } else
+      if (isBigger(this.heap[parent], this.heap[index])) {
         [this.heap[parent], this.heap[index]] = [
           this.heap[index],
           this.heap[parent],
         ];
+      }
 
       index = parent;
     }
@@ -56,31 +53,19 @@ class Heap {
       let [leftChild, rightChild] = [2 * index, 2 * index + 1];
       let minChild = leftChild;
 
-      if (rightChild <= this.size) {
-        if (Math.abs(this.heap[rightChild]) == Math.abs(this.heap[leftChild])) {
-          if (this.heap[rightChild] < this.heap[leftChild]) {
-            minChild = rightChild;
-          }
-        } else if (
-          Math.abs(this.heap[rightChild]) < Math.abs(this.heap[leftChild])
-        ) {
-          minChild = rightChild;
-        }
+      if (
+        rightChild <= this.size &&
+        isBigger(this.heap[leftChild], this.heap[rightChild])
+      ) {
+        minChild = rightChild;
       }
 
-      if (Math.abs(this.heap[index]) < Math.abs(this.heap[minChild])) break;
-
-      if (Math.abs(this.heap[index]) == Math.abs(this.heap[minChild])) {
-        if (this.heap[index] < this.heap[minChild]) {
-          break;
-        }
-      }
+      if (isBigger(this.heap[minChild], this.heap[index])) break;
 
       [this.heap[index], this.heap[minChild]] = [
         this.heap[minChild],
         this.heap[index],
       ];
-
       index = minChild;
     }
   }
