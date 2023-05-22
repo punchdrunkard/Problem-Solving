@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/array-reduce-transformation/?utm_campaign=PostD6&utm_medium=Post&utm_source=Post&gio_link_id=nPN45jD9
+
 /**
  * @param {number[]} nums
  * @param {Function} fn
