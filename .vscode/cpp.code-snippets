@@ -1,0 +1,17 @@
+{
+  "Problem Solving for cpp": {
+    "prefix": "ps-cpp",
+    "body": [
+      "#include <bits/stdc++.h>\n",
+      "using namespace std;\n",
+      "void input() {",
+      "\tios_base::sync_with_stdio(0);\n\tcin.tie(0);\n\tcout.tie(0);",
+      "// 테스트를 위한 파일 입력 코드 (TODO: 제출 전 삭제)",
+      "// freopen(\"sample_input.txt\", \"r\", stdin);",
+      "}\n",
+      "int main () {",
+      "\treturn 0;",
+      "}"
+    ]
+  }
+}
