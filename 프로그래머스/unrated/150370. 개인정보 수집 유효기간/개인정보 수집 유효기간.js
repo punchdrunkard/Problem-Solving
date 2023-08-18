@@ -38,13 +38,19 @@ function solution(today, terms, privacies) {
         // date에 term을 적용한다.
         newDate[MONTH] += term;
         
-     
-         // 월이 12일 이하일 때 까지 감소시키기
-        while (newDate[MONTH] > 12){
-            newDate[MONTH] -= 12;
-            newDate[YEAR] += 1;
+        if (newDate[MONTH] > 12){
+            let [y, m] = [Math.floor(newDate[MONTH] / 12), newDate[MONTH] % 12];
+            
+            if (m == 0){
+                newDate[YEAR] += (y - 1);
+                newDate[MONTH] = 1;
+            } else {
+                newDate[YEAR] += y;
+                newDate[MONTH] = m;
+            }
+
+            
         }
-        
 
         return [
             ...newDate
@@ -68,5 +74,5 @@ function solution(today, terms, privacies) {
         }
     })
         
-    return answer;
+    return answer.sort((a,b) => a-b);
 }
