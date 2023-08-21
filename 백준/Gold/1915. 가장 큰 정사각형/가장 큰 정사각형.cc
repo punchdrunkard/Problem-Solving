@@ -14,19 +14,17 @@ void input() {
   // freopen("sample_input.txt", "r", stdin);
 
   cin >> n >> m;
-  board.resize(n);
+  board.resize(n, vector<int>(m));
 
   for (int i = 0; i < n; i++) {
     string line;
     cin >> line;
 
-    for (auto &c : line) {
-      board[i].push_back(c - '0');
+    for (int j = 0; j < m; j++) {
+      board[i][j] = line[j] - '0';
     }
   }
 }
-
-bool isValidRange(int x, int y) { return 0 <= x && x < n && 0 <= y && y < n; }
 
 int main() {
   input();
