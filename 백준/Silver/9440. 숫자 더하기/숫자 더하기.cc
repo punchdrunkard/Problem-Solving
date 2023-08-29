@@ -7,11 +7,21 @@ using namespace std;
 int n;  // 연습 문제에서 사용될 숫자의 갯수
 vector<int> numbers;
 
+int vectorToNumber(const vector<int>& vec) {
+  int num = 0;
+
+  for (int i = 0; i < vec.size(); i++) {
+    num += (vec[i] * pow(10, vec.size() - i - 1));
+  }
+
+  return num;
+}
+
 int main() {
   FASTIO;
 
   // 테스트를 위한 파일 입력 코드 (TODO: 제출 전 삭제)
-  //  freopen("sample_input.txt", "r", stdin);
+  // freopen("sample_input.txt", "r", stdin);
 
   cin >> n;
 
@@ -22,64 +32,29 @@ int main() {
       cin >> numbers[i];
     }
 
-    int answer = 0;
-
     vector<int> a, b;
 
     // numbers 배열을 정렬 (오름 차순)
     sort(numbers.begin(), numbers.end());
 
-    // 자릿수를 결정한다.
-    int a_length = n / 2, b_length = n / 2;
-
-    if (n % 2 == 1) {
-      a_length++;
-    }
-
     // 자릿수에 맞게 작은 수부터 집어넣는다.
     for (int i = 0; i < n; i++) {
-      if (a_length > b_length) {
-        // 길이가 긴쪽에 작은 원소를 넣자.
+      // 길이가 긴쪽에 값이 작은 원소를 넣자.
+      vector<int>& target = (a.size() <= b.size()) ? a : b;
 
-        // 근데 첫 번째 원소가 0이면 안되므로
-        if (a.size() == 0 && numbers[i] == 0) {
-          // numbers에서 0이 아닌 최소의 원소를 찾는다.
-          auto it = find_if(numbers.begin() + i, numbers.end(),
-                            [](int x) { return x != 0; });
-          // it에 있는 원소와 해당 원소를 swap 한다.
-          swap(*it, numbers[i]);
-        }
-
-        a.push_back(numbers[i]);
-        a_length--;
-
-      } else {
-        if (b.size() == 0 && numbers[i] == 0) {
-          // numbers에서 0이 아닌 최소의 원소를 찾는다.
-          auto it = find_if(numbers.begin() + i, numbers.end(),
-                            [](int x) { return x != 0; });
-          // it에 있는 원소와 해당 원소를 swap 한다.
-          swap(*it, numbers[i]);
-        }
-
-        b.push_back(numbers[i]);
-        b_length--;
+      // 근데 첫 번째 원소가 0이면 안되므로
+      if (target.empty() && numbers[i] == 0) {
+        // numbers에서 0이 아닌 최소의 원소를 찾는다.
+        auto it = find_if(numbers.begin() + i, numbers.end(),
+                          [](int x) { return x != 0; });
+        // it에 있는 원소와 해당 원소를 swap 한다.
+        swap(*it, numbers[i]);
       }
+
+      target.push_back(numbers[i]);
     }
 
-    // 벡터 내부에 있는 수를 합치자.
-    int num1 = 0, num2 = 0;
-
-    for (int i = 0; i < a.size(); i++) {
-      num1 += (a[i] * pow(10, a.size() - i - 1));
-    }
-
-    for (int i = 0; i < b.size(); i++) {
-      num2 += (b[i] * pow(10, (b.size() - i - 1)));
-    }
-
-    cout << num1 + num2 << '\n';
-
+    cout << vectorToNumber(a) + vectorToNumber(b) << '\n';
     cin >> n;
   }
 
