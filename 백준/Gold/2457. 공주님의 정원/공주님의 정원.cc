@@ -10,12 +10,6 @@ using namespace std;
 int n;  // 꽃들의 총 갯수
 vector<pair<int, int>> flowers;
 
-// 그리디 알고리즘 : 현재 상태에서 가장 "좋은" 선택을 하고,
-// 이를 반복함으로써 문제를 해결한다.
-
-// 즉, 매번 현지 시점 (current)에서 피어있는 꽃 중에서
-// 가장 마지막에 지는 꽃을 선택한다.
-
 void input() {
   FASTIO;
 
@@ -29,10 +23,10 @@ void input() {
     int s_month, s_day, e_month, e_day;
     cin >> s_month >> s_day >> e_month >> e_day;
 
-    int st = s_month * 100 + s_day;
-    int en = e_month * 100 + e_day;
+    int start = s_month * 100 + s_day;
+    int end = e_month * 100 + e_day;
 
-    flowers[i] = {st, en};
+    flowers[i] = {start, end};
   }
 }
 
@@ -41,30 +35,31 @@ int main() {
 
   sort(flowers.begin(), flowers.end());
 
-  int current = 301;  // 현재 시간
-  int count = 0;      // 꽃의 갯수
+  int answer = 0;
+  int current = 301;  // 3월 1일
 
   while (current <= 1130) {
-    // 다음에 피울 꽃의 지는 시간
-    int next = current;
+    int next = current;  // 꽃이 지는 날짜
 
     for (auto flower : flowers) {
-      if (flower.X <= current && next < flower.Y) {
+      // 현재 시점에서 피어있는 꽃 중 가장 오랫동안 피어있는 꽃을 선택
+      if (flower.X <= current && flower.Y > next) {
         next = flower.Y;
       }
     }
 
-    // 업데이트 되었다면 증가시킨다.
+    // 꽃이 갱신되지 않음 = 현재 시점에서 선택할 수 있는 꽃이 없다.
     if (next == current) {
-      count = 0;
+      answer = 0;
       break;
-    } else {
-      count += 1;
-      current = next;
     }
+
+    // 꽃이 갱신되었으면 날짜를 갱신
+    answer++;
+    current = next;
   }
 
-  cout << count;
+  cout << answer;
 
   return 0;
 }
