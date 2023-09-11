@@ -36,9 +36,7 @@ bool stick(vector<vector<int>> &sticker, int r, int c) {
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < m; j++) {
       if (i + r > n || j + c > m) continue;
-
-      // cout << "valid..\n";
-
+        
       vector<vector<int>> temp(r, vector<int>(c));
 
       for (int di = 0; di < r; di++) {
@@ -69,7 +67,6 @@ bool stick(vector<vector<int>> &sticker, int r, int c) {
             board[i + di][j + dj] = temp[di][dj];
           }
         }
-
         return true;
       }
     }
@@ -81,9 +78,7 @@ bool stick(vector<vector<int>> &sticker, int r, int c) {
 int main() {
   input();
 
-  // TODO: 나중에 bool로 바꿔서 메모리 아끼기
   for (int s = 0; s < k; s++) {
-    // 스티커가 붙어있는 모눈 종이
     int s_row, s_col;
     cin >> s_row >> s_col;
 
@@ -96,31 +91,11 @@ int main() {
       }
     }
 
-    // 붙여본다.
-    if (stick(sticker, s_row, s_col)) {  // 0도 회전
-
-      continue;
-    }
-
-    // 90도 회전
-    rotate(sticker, s_row, s_col);
-
-    if (stick(sticker, s_col, s_row)) {
-      continue;
-    }
-
-    // 180도 회전
-    rotate(sticker, s_col, s_row);
-
-    if (stick(sticker, s_row, s_col)) {
-      continue;
-    }
-
-    // 270도 회전
-    rotate(sticker, s_row, s_col);
-
-    if (stick(sticker, s_col, s_row)) {
-      continue;
+    // 90도씩 스티커를 회전시키면서 붙인다.
+    for (int dir = 0; dir < 4; dir++) {
+      if (stick(sticker, s_row, s_col)) break;
+      rotate(sticker, s_row, s_col);
+      swap(s_row, s_col);  // 회전했으므로 가로, 세로 길이도 바꿈
     }
   }
 
