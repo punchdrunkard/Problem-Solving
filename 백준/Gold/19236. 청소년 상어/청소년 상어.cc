@@ -24,8 +24,6 @@ vector<int> DY = {0, -1, -1, -1, 0, 1, 1, 1};
 
 void input() {
   FASTIO;
-
-  // 테스트를 위한 파일 입력 코드 (TODO: 제출 전 삭제)
   // freopen("sample_input.txt", "r", stdin);
 
   for (int i = 0; i < 4; i++) {
@@ -56,7 +54,7 @@ void moveFish() {
       int next_x = cur_x + DX[next_dir];
       int next_y = cur_y + DY[next_dir];
 
-      if (isValidRange(next_x, next_y) && fish_map[next_x][next_y] != -1) {
+      if (isValidRange(next_x, next_y) && fish_map[next_x][next_y] != SHARK) {
         int next_fish_id = fish_map[next_x][next_y];
 
         swap(fish_map[cur_x][cur_y], fish_map[next_x][next_y]);
@@ -100,14 +98,14 @@ void dfs(int x, int y, int dir, int sum) {
       Fish current_fish = fish_info[current_fish_id];
 
       // 상어가 물고기를 잡아먹는다.
-      fish_map[x][y] = 0;
-      fish_map[nx][ny] = -1;
+      fish_map[x][y] = EMPTY;
+      fish_map[nx][ny] = SHARK;
       fish_info[current_fish_id].is_alive = false;
 
       dfs(nx, ny, current_fish.dir, sum + current_fish_id);
 
       // 상태 복원
-      fish_map[x][y] = -1;
+      fish_map[x][y] = SHARK;
       fish_map[nx][ny] = current_fish_id;
       fish_info[current_fish_id].is_alive = true;
     }
