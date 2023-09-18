@@ -45,6 +45,10 @@ bool isValidRange(pair<int, int> p) {
   return 1 <= p.X && p.X <= n && 1 <= p.Y && p.Y <= n;
 }
 
+bool isGameOver(pair<int, int> next) {
+  return !isValidRange(next) || board[next.X][next.Y] == SNAKE;
+}
+
 void solve() {
   // 뱀의 위치 init
   board[1][1] = SNAKE;
@@ -58,17 +62,14 @@ void solve() {
 
   // 먼저 move 에 있는 시간만큼 움직여 줘야 한다.
   while (true) {
+    time++;
     pair<int, int> head = dq.back();
 
     // 시간에 따라 한 칸 간다.
     pair<int, int> next = {head.X + DIRS[dir].X, head.Y + DIRS[dir].Y};
 
     // 게임이 끝나는 경우
-    if (!isValidRange(next)) {  // 범위를 벗어난 경우
-      break;
-    }
-
-    if (board[next.X][next.Y] == SNAKE) {  // 자기 자신의 몸에 부딪히는 경우
+    if (isGameOver(next)) {
       break;
     }
 
@@ -80,7 +81,6 @@ void solve() {
 
     dq.push_back(next);
     board[next.X][next.Y] = SNAKE;
-    time++;
 
     if (0 <= idx && idx < l) {
       if (time == moves[idx].first) {
@@ -97,7 +97,7 @@ void solve() {
     }
   }
 
-  cout << time + 1;
+  cout << time;
 }
 
 int main() {
