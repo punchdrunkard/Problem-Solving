@@ -39,18 +39,6 @@ void input() {
   }
 }
 
-void printBoard(vector<vector<int>> board) {
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      if (board[i][j] == EMPTY)
-        cout << "빈\t";
-      else
-        cout << board[i][j] << '\t';
-    }
-    cout << '\n';
-  }
-}
-
 void applyGravity() {
   vector<vector<int>> result(n, vector<int>(n, EMPTY));
 
@@ -173,7 +161,6 @@ int solve() {
   int score = 0;
 
   while (true) {
-    // 1. bfs를 통하여 "조건을 만족시키는 connected Component를 찾는다."
     BFSResult result = {-1, -1, {}};
     pair<int, int> standard = {0, 0};  // 기준 블록의 좌표
 
