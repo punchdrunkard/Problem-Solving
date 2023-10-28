@@ -13,11 +13,8 @@ int main() {
   int m;
   cin >> m;
 
-  // 집합의 표현 => 비트 마스킹을 이용한다.
-  // 특히 S = {1, 2, .. 20} 으로 나타낼 수 있으므로,
-  // 각 원소들을 index로 하고, 원소의 존재여부를 bool 로 나타낼 수 있다.
-
-  vector<bool> s(21, false);
+  // 집합을 나타내는 비트 마스크
+  int s = 0;
 
   for (int i = 0; i < m; i++) {
     string op;
@@ -26,27 +23,24 @@ int main() {
     if (op == "add") {
       int x;
       cin >> x;
-      s[x] = true;
+      s |= (1 << x);  // (x 번째 비트를 1로 한다.)
     } else if (op == "remove") {
       int x;
       cin >> x;
-      s[x] = false;
+      s &= ~(1 << x);
     } else if (op == "check") {
       int x;
       cin >> x;
-      cout << s[x] << '\n';
+      cout << bool(s & (1 << x)) << '\n';
     } else if (op == "toggle") {
       int x;
       cin >> x;
-      s[x] = !s[x];
+      s ^= (1 << x);
     } else if (op == "all") {
-      for (int i = 1; i <= 20; i++) {
-        s[i] = true;
-      }
+      s = (1 << 21) - 1;
+
     } else if (op == "empty") {
-      for (int i = 1; i <= 20; i++) {
-        s[i] = false;
-      }
+      s = 0;
     }
   }
 
