@@ -44,7 +44,6 @@ void dfs(int idx) {
     pair<int, int> count = countVandC(current);
 
     if (count.first >= 1 && count.second >= 2) {
-      sort(current.begin(), current.end());
       cout << string(current.begin(), current.end()) << '\n';
     }
 
