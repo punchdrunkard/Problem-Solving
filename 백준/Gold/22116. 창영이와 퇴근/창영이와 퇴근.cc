@@ -10,14 +10,8 @@ typedef long long ll;
 int n;
 vector<vector<ll>> board;
 
-// TODO: long long 으로 바꾸기
-
 void input() {
   FASTIO;
-
-  // 테스트를 위한 파일 입력 코드 (TODO: 제출 전 삭제)
-  // freopen("sample_input.txt", "r", stdin);
-
   cin >> n;
   board.resize(n + 1, vector<ll>(n + 1));
 
@@ -27,9 +21,6 @@ void input() {
     }
   }
 }
-
-// 경사 = 인접한 격자 사이의 높이 차이
-// 창영이가 지날 수 있는 경사의 최솟값 알기
 
 bool isValidRange(int x, int y) { return 1 <= x && x <= n && 1 <= y && y <= n; }
 
@@ -47,7 +38,7 @@ int DY[4] = {0, 0, -1, 1};
 
 ll dijkstra() {
   priority_queue<Edge> pq;
-  // dist[i][j] = {1, 1} ~ {i, j} 까지 갈 수 있는 최소 경사들
+  // dist[i][j] = {1, 1} ~ {i, j} 까지의 경로를 탐색할 때 만난 최대 경사
   vector<vector<ll>> dist(n + 1, vector<ll>(n + 1, INF));
 
   pq.push({1, 1, 0});
@@ -89,22 +80,6 @@ ll dijkstra() {
 
   return dist[n][n];
 }
-
-// ll solve() {
-//   // (1, 1) ~  (n, n) 탐색 시, 최소 경사로만 탐색하게 한다.
-//   vector<vector<ll>> dist = dijkstra();
-
-//   // 현재 만난 최대 경사를 출력한다.
-//   ll answer = -1;
-
-//   for (int i = 1; i <= n; i++) {
-//     for (int j = 1; j <= n; j++) {
-//       answer = max(answer, dist[i][j]);
-//     }
-//   }
-
-//   return answer;
-// }
 
 int main() {
   input();
