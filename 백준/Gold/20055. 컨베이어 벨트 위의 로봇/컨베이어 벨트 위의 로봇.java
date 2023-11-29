@@ -46,9 +46,6 @@ public class Main {
     static void rotate() {
         rotateBelt();
         rotateRobot();
-        if (robots[n - 1]) {
-            robots[n - 1] = false;
-        }
     }
 
     static void rotateBelt() {
@@ -64,10 +61,9 @@ public class Main {
         for (int i = 2 * n - 1; i > 0; i--) {
             robots[i] = robots[i - 1];
         }
+
         robots[0] = last;
-        if (robots[n - 1]) {
-            robots[n - 1] = false;
-        }
+        robots[n - 1] = false;
     }
 
     static void moveRobot() {
@@ -78,9 +74,8 @@ public class Main {
                 belts[i + 1]--;
             }
         }
-        if (robots[n - 1]) {
-            robots[n - 1] = false;
-        }
+
+        robots[n - 1] = false;
     }
 
     static boolean isEnd() {
