@@ -1,49 +1,57 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class Main {
     static final int MOD = 1_000_000_000;
-    static final int MAX = 101;
-
-    // dp[자릿수][마지막으로 채운 수][state]
-    static long[][][] dp = new long[MAX][10][1 << 10];
-
-    public static long solve(int n) {
-        // dp init : 자릿수가 1인 계단수는 한 개이다.
-        for (int i = 0; i <= 9; i++) {
-            dp[1][i][(1 << i)] = 1;
-        }
-
-        // bottom-up
-        for (int digit = 2; digit <= n; digit++) { // 현재 자릿수
-            for (int last = 0; last <= 9; last++) { // 마지막으로 채운 수
-                for (int bit = 0; bit < (1 << 10); bit++) { // 비트 -> num을 포함 시킴
-                    if (last > 0) {
-                        dp[digit][last][bit | (1 << last)] += (dp[digit - 1][last - 1][bit] % MOD);
-                    }
-
-                    if (last < 9) {
-                        dp[digit][last][bit | (1 << last)] += (dp[digit - 1][last + 1][bit] % MOD);
-                    }
-                }
-            }
-        }
-
-        // 답 찾기 : 1로 끝나는 계단 수 ~ 9로 끝나는 계단 수
-        long answer = 0;
-
-        for (int start = 1; start <= 9; start++) {
-            answer += (dp[n][start][(1 << 10) - 1] % MOD);
-        }
-
-        return answer % MOD;
-    }
+    static int n;
+    static long[][][] dp; // 자릿수, 마지막 수, state bit
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
-        System.out.println(solve(n));
+        n = Integer.parseInt(br.readLine());
+
+        // init dp table
+        dp = new long[n + 1][10][1 << 10];
+
+        for (long[][] ints : dp) {
+            IntStream.range(0, ints.length).forEach(j -> Arrays.fill(ints[j], -1));
+        }
+
+        long answer = 0;
+
+        for (int i = 1; i <= 9; i++){
+            answer += solve(1, i, 1 << i);
+            answer %= MOD;
+        }
+
+        System.out.println(answer);
     }
 
+    // count : 자릿 수, prev : 이전 수, visited : 방문 상태
+    public static long solve(int count, int prev, int visited) {
+        if (dp[count][prev][visited] != -1) return dp[count][prev][visited];
+
+        // base-case : 정답을 찾은 경우 (1-9까지 포함하고, n자리수)
+        if (count == n) {
+            return dp[count][prev][visited] = (visited == (1 << 10) - 1) ? 1 : 0;
+        }
+
+        // 다음 상태로 go
+        dp[count][prev][visited] = 0;
+
+        if (prev > 0){
+            dp[count][prev][visited] += solve(count + 1, prev - 1, visited | (1 << (prev - 1)));
+            dp[count][prev][visited] %= MOD;
+        }
+
+        if (prev < 9){
+            dp[count][prev][visited] += solve(count + 1, prev + 1, visited | (1 << (prev + 1)));
+            dp[count][prev][visited] %= MOD;
+        }
+
+        return dp[count][prev][visited] % MOD;
+    }
 }
