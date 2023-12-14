@@ -23,7 +23,7 @@ public class Main {
 
         // 골드바흐 파티션 구하기
         // 현재 소수와 다른 수로 합을 나타냈을 때, 다른 수가 짝수인가?
-        for (int i = 2; i <= n; i++){
+        for (int i = 2; i <= n / 2; i++){
             // 현재 수가 소수가 아닌 경우
             if (!primes[i]) continue;
 
@@ -56,6 +56,7 @@ public class Main {
                 primes[j] = false;
             }
         }
+
         return primes;
     }
 }
