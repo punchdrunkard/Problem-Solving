@@ -1,3 +1,7 @@
+// 반례 참고 : https://www.acmicpc.net/board/view/40044
+
+const { kStringMaxLength } = require("buffer");
+const { count } = require("console");
 const fs = require("fs");
 const stdin = fs.readFileSync("/dev/stdin").toString().trim().split("\n");
 
