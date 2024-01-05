@@ -1,8 +1,4 @@
 # 문제 풀이 저장소
-
-백준 : 알고리즘 문제 풀이, 백준 허브 이용
-리트코드 : 알고리즘 문제 풀이, 자바스크립트 챌린지, 스터디 플랜 등등
-
 ## 오답노트
 
 |                         문제                         |                                                                                                                                                                    링크                                                                                                                                                                     |
@@ -29,4 +25,8 @@
 - [맨날 까먹는 자바스크립트 문법 모음](https://github.com/dar-jeeling/Problem-Solving/blob/main/%EA%B0%84%EB%8B%A8%ED%95%9C%20%EB%85%B8%ED%8A%B8/javascript_grammar.md)
 - [C++ 토큰 처리 기법](https://github.com/dar-jeeling/Problem-Solving/blob/main/template/utils/token.cpp)
 
-## 알고리즘 / 자료 구조 기술 면접
+
+
+
+
+![](http://mazassumnida.wtf/api/v2/generate_badge?boj=sky_rabbit)
