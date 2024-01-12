@@ -18,7 +18,6 @@ public class Main {
 
     static int n, m;
     static List<Edge>[] adj;
-    static int answer;
 
     public static void main(String[] args) throws IOException {
         input();
@@ -28,26 +27,29 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             int s = nextInt(st);
             int e = nextInt(st);
-            dfs(s, -1, e, 0);
 
-            sb.append(answer).append("\n");
+
+            sb.append(dfs(s, -1, e, 0)).append("\n");
         }
 
         System.out.print(sb);
     }
 
     // 트리에서 "두 노드 사이의 경로는 유일하다"
-    public static void dfs(int current, int prev, int goal, int dist) {
-        // 도착했으면 return
+    public static int dfs(int current, int prev, int goal, int dist) {
         if (current == goal) {
-            answer = dist;
-            return;
+            return dist;
         }
 
         for (Edge child : adj[current]) {
             if (child.x == prev) continue;
-            dfs(child.x, current, goal, dist + child.cost);
+            int result = dfs(child.x, current, goal, dist + child.cost);
+            if (result != -1) {
+                return result;
+            }
         }
+
+        return -1;
     }
 
     public static void input() throws IOException {
