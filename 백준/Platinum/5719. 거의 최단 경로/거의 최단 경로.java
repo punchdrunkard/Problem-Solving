@@ -32,6 +32,8 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException {
+		StringBuilder sb = new StringBuilder();
+
 		while (true) {
 			OneLineParser lineParser = new OneLineParser(br.readLine());
 			n = lineParser.nextInt();
@@ -41,8 +43,10 @@ public class Main {
 			}
 
 			input(lineParser);
-			System.out.println(solve());
+			sb.append(solve()).append('\n');
 		}
+
+		System.out.print(sb);
 	}
 
 	public static int solve() {
