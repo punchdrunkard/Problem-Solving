@@ -26,8 +26,8 @@ public class Main {
 		}
 
 		@Override
-		public int compareTo(Edge o) { // cost 기준 내림차순
-			return Integer.compare(o.cost, this.cost);
+		public int compareTo(Edge o) {
+			return Integer.compare(this.cost, o.cost);
 		}
 	}
 
