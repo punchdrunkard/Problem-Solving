@@ -1,43 +1,32 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
+import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int n, m;
-	static int src, dest;
+	static int n, m, src, dest;
 	static List<State>[] adj;
+	static int[] dist, prev;
 
 	static class State implements Comparable<State> {
-		int prev; // 이전 점
-		int dest;
-		Long cost;
+		int to;
+		int cost;
 
-		State(int prev, int dest, Long cost) {
-			this.prev = prev;
-			this.dest = dest;
+		State(int to, int cost) {
+			this.to = to;
 			this.cost = cost;
 		}
 
 		@Override
 		public int compareTo(State o) {
-			return Long.compare(this.cost, o.cost);
+			return Integer.compare(this.cost, o.cost);
 		}
 
-		@Override
-		public String toString() {
-			return "State{" +
-				"prev=" + prev +
-				", dest=" + dest +
-				", cost=" + cost +
-				'}';
-		}
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -46,24 +35,11 @@ public class Main {
 	}
 
 	public static void solve() {
+		dijkstra();
+		List<Integer> path = getMinimumPath();
+
 		StringBuilder sb = new StringBuilder();
-
-		State[] dist = dijkstra();
-		List<Integer> path = new ArrayList<>();
-		Deque<Integer> stk = new ArrayDeque<>();
-		stk.offer(dest);
-
-		while (!stk.isEmpty()) {
-			int next = stk.poll();
-			if (next == -1)
-				break;
-
-			path.add(next);
-			stk.offer(dist[next].prev);
-		}
-
-		// 비용, 도시 몇 개?, 경로
-		sb.append(dist[dest].cost).append('\n');
+		sb.append(dist[dest]).append('\n');
 		sb.append(path.size()).append('\n');
 
 		for (int i = path.size() - 1; i >= 0; i--) {
@@ -71,41 +47,53 @@ public class Main {
 		}
 
 		System.out.println(sb);
-
 	}
 
-	public static State[] dijkstra() {
-		State[] dist = new State[n + 1];
-		for (int i = 1; i <= n; i++) {
-			dist[i] = new State(i, i, Long.MAX_VALUE);
+	public static List<Integer> getMinimumPath() {
+		List<Integer> path = new ArrayList<>();
+
+		int current = dest;
+
+		while (current != src) {
+			path.add(current);
+			current = prev[current];
 		}
 
-		dist[src] = new State(-1, src, 0L);
+		path.add(current);
+
+		return path;
+	}
+
+	public static void dijkstra() {
+		dist = new int[n + 1];
+		prev = new int[n + 1];
+
+		Arrays.fill(dist, Integer.MAX_VALUE);
+		dist[src] = 0;
+		prev[src] = src;
 
 		Queue<State> pq = new PriorityQueue<>();
-		pq.offer(dist[src]);
+		pq.offer(new State(src, 0));
 
 		while (!pq.isEmpty()) {
 			State current = pq.poll();
 
-			if (current.cost != dist[current.dest].cost) {
+			if (current.cost != dist[current.to]) {
 				continue;
 			}
 
-			for (var edge : adj[current.dest]) {
-				Long nextCost = edge.cost + current.cost;
+			for (var edge : adj[current.to]) {
+				int nextCost = edge.cost + current.cost;
 
-				if (nextCost >= dist[edge.dest].cost) {
+				if (nextCost >= dist[edge.to]) {
 					continue;
 				}
 
-				State next = new State(current.dest, edge.dest, nextCost);
-				dist[edge.dest] = next;
-				pq.offer(next);
+				dist[edge.to] = nextCost;
+				prev[edge.to] = current.to;
+				pq.offer(new State(edge.to, nextCost));
 			}
 		}
-
-		return dist;
 	}
 
 	public static void input() throws IOException {
@@ -123,9 +111,9 @@ public class Main {
 
 			int st = line.nextInt();
 			int en = line.nextInt();
-			Long cost = line.nextLong();
+			int cost = line.nextInt();
 
-			adj[st].add(new State(st, en, cost));
+			adj[st].add(new State(en, cost));
 		}
 
 		OneLineParser line = new OneLineParser(br.readLine());
