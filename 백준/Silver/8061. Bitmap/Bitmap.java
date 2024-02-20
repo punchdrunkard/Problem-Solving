@@ -85,10 +85,6 @@ public class Main {
 					continue;
 				}
 
-				if (dist[nx][ny] < dist[x][y] + 1) {
-					continue;
-				}
-
 				dist[nx][ny] = dist[x][y] + 1;
 				q.offer(new Point(nx, ny));
 			}
