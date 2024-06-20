@@ -10,15 +10,13 @@ public class Main {
 
 	// 현재 가지고 있는 단어 set
 	static Set<Character> basicSet = new HashSet<>(Arrays.asList('a', 'n', 't', 'c', 'i'));
-	static Set<Character>[] words;
+	static String[] words;
 
 	static boolean[] visited;
 
 	public static void main(String[] args) {
 		input();
-
 		solve(0, 'a');
-
 		System.out.println(answer);
 	}
 
@@ -47,7 +45,7 @@ public class Main {
 			}
 
 			visited[c - 'a'] = true;
-			solve(count + 1, c);
+			solve(count + 1, (char)(c + 1));
 			visited[c - 'a'] = false;
 		}
 	}
@@ -65,12 +63,13 @@ public class Main {
 		return count;
 	}
 
-	static boolean canRead(Set<Character> word) {
-		for (char c : word) {
-			if (!visited[c - 'a']) {
+	static boolean canRead(String word) {
+		for (int i = 0; i < word.length(); i++){
+			if (!visited[word.charAt(i) - 'a']) {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -78,24 +77,16 @@ public class Main {
 		n = scan.nextInt();
 		k = scan.nextInt();
 
-		words = new HashSet[n];
-		for (int i = 0; i < n; i++) {
-			words[i] = new HashSet<>();
-		}
-
-		// anta__tica 에 들어가는 단어들은 기본적으로 가지고 있어야 함
+		// antatica 에 들어가는 단어들은 기본적으로 가지고 있어야 함
 		visited = new boolean[26];
 		for (char c : basicSet) {
 			visited[c - 'a'] = true;
 		}
 
+		words = new String[n];
 		for (int i = 0; i < n; i++) {
 			String word = scan.next();
-			String sub = word.substring(4, word.length() - 4);
-
-			for (char ch : sub.toCharArray()) {
-				words[i].add(ch);
-			}
+			words[i] = word.substring(4, word.length() - 4);
 		}
 	}
 
