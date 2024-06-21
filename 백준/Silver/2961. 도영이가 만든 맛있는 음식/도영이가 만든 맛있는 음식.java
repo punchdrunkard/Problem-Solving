@@ -9,7 +9,6 @@ public class Main {
 	static Pair[] ingredients;
 
 	static long answer = Long.MAX_VALUE;
-	static boolean[] visited;
 
 	static class Pair {
 		long s, v;
@@ -27,33 +26,28 @@ public class Main {
 	}
 
 	static void solve(long sSum, long vSum, int idx, int count) {
-		if (idx == n && count > 0) {
+		if (idx >= n && count == 0){
+			return;
+		}
+
+		if (idx >= n && count > 0) {
 			long diff = Math.abs(sSum - vSum);
 			answer = Math.min(answer, diff);
 			return;
 		}
 
-		for (int i = idx; i < n; i++) {
-			if (visited[i]) {
-				continue;
-			}
+		Pair ci = ingredients[idx];
 
-			Pair ci = ingredients[i];
+		long nextS = count == 0 ? ci.s : sSum * ci.s;
+		long nextV = vSum + ci.v;
 
-			long nextS = count == 0 ? ci.s : sSum * ci.s;
-			long nextV = vSum + ci.v;
-
-			visited[i] = true;
-			solve(nextS, nextV, idx + 1, count + 1);
-			visited[i] = false;
-			solve(sSum, vSum, idx + 1, count);
-		}
+		solve(nextS, nextV, idx + 1, count + 1);
+		solve(sSum, vSum, idx + 1, count);
 	}
 
 	static void init() {
 		n = scan.nextInt();
 		ingredients = new Pair[n];
-		visited = new boolean[n];
 
 		for (int i = 0; i < n; i++) {
 			long s = scan.nextLong();
