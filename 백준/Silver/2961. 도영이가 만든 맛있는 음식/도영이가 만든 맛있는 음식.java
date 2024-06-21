@@ -11,10 +11,10 @@ public class Main {
 	static long answer = Long.MAX_VALUE;
 	static boolean[] visited;
 
-	static class Pair<T> {
-		T s, v;
+	static class Pair {
+		long s, v;
 
-		Pair(T s, T v) {
+		Pair(long s, long v) {
 			this.s = s;
 			this.v = v;
 		}
@@ -38,7 +38,7 @@ public class Main {
 				continue;
 			}
 
-			Pair<Long> ci = ingredients[i];
+			Pair ci = ingredients[i];
 
 			long nextS = count == 0 ? ci.s : sSum * ci.s;
 			long nextV = vSum + ci.v;
