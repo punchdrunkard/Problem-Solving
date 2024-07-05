@@ -16,88 +16,86 @@ public class Main {
 	static List<Integer> targetX = new ArrayList<>();
 	static List<Integer> targetY = new ArrayList<>();
 
-	static class Triple {
-		int x, y, dir; // dir := 빛의 진행 방향
+	static class State implements Comparable<State> {
+		int x, y, d, count;
 
-		Triple(int x, int y, int dir) {
+		State(int x, int y, int d, int count) {
 			this.x = x;
 			this.y = y;
-			this.dir = dir;
+			this.d = d;
+			this.count = count;
+		}
+
+		@Override
+		public int compareTo(State o) {
+			return Integer.compare(this.count, o.count);
 		}
 	}
 
-	static Queue<Triple> q = new LinkedList<>();
-
-	// count[x][y][d] := (x, y)에서 빛이 d 방향으로 움직일 때, 설치한 거울의 갯수
-	static int[][][] count;
+	static PriorityQueue<State> pq = new PriorityQueue<>();
+	static int[][][] dist;
 
 	public static void main(String[] args) {
 		init();
-		bfs();
-
-		int answer = Integer.MAX_VALUE;
-		for (int i = 0; i < 4; i++) {
-			answer = Math.min(count[targetX.get(1)][targetY.get(1)][i], answer);
-		}
-		
-		System.out.println(answer);
+		dijkstra();
 	}
 
 	static int[] changeDirection(int dir) {
 		if (dir == 0 || dir == 1) {
 			return new int[] {2, 3};
 		}
-
 		return new int[] {0, 1};
 	}
 
-	static void bfs() {
-		// 시작점 문에서 가능한 빛의 방향으로 탐사
-		for (int dir = 0; dir < 4; dir++) {
-			q.add(new Triple(sx, sy, dir));
-			// 시작점에 대한 count 배열 초기화
-			count[sx][sy][dir] = 0;
+	static void dijkstra() {
+		dist = new int[n][n][4];
+		for (int[][] row : dist) {
+			for (int[] col : row) {
+				Arrays.fill(col, Integer.MAX_VALUE);
+			}
 		}
 
-		// 탐색
-		while (!q.isEmpty()) {
-			// 현재 위치
-			Triple pos = q.poll();
+		for (int dir = 0; dir < 4; dir++) {
+			pq.add(new State(sx, sy, dir, 0));
+			dist[sx][sy][dir] = 0;
+		}
 
-			// 다음 위치 => 지금 빛 방향으로 진행
-			int nx = pos.x + DX[pos.dir];
-			int ny = pos.y + DY[pos.dir];
+		while (!pq.isEmpty()) {
+			State current = pq.poll();
+			int cx = current.x;
+			int cy = current.y;
+			int cd = current.d;
+			int currentCount = current.count;
+
+			int nx = cx + DX[cd];
+			int ny = cy + DY[cd];
 
 			if (isOutOfRange(nx, ny) || board[nx][ny] == '*') {
 				continue;
 			}
 
-			// 문에 도달한 경우
-			if (board[nx][ny] == '#') {
-				count[nx][ny][pos.dir] = Math.min(count[pos.x][pos.y][pos.dir], count[nx][ny][pos.dir]);
-			} else if (board[nx][ny] == '!') {
-				// 거울 설치 -> 현재 위치에서 dir 이 변함
-				int[] nextDirs = changeDirection(pos.dir);
+			// 현재 위치에서 다음 위치로 이동
+			if (dist[nx][ny][cd] > currentCount) {
+				dist[nx][ny][cd] = currentCount;
+				pq.add(new State(nx, ny, cd, currentCount));
+			}
 
-				for (int d : nextDirs) {
-					if (count[pos.x][pos.y][pos.dir] + 1 < count[nx][ny][d]) {
-						count[nx][ny][d] = count[pos.x][pos.y][pos.dir] + 1;
-						q.offer(new Triple(nx, ny, d));
+			if (board[nx][ny] == '!') {
+				int[] nextDir = changeDirection(cd);
+				for (int nd : nextDir) {
+					if (dist[nx][ny][nd] > currentCount + 1) {
+						dist[nx][ny][nd] = currentCount + 1;
+						pq.add(new State(nx, ny, nd, currentCount + 1));
 					}
-				}
-
-				// 거울 설치 X
-				if (count[pos.x][pos.y][pos.dir] < count[nx][ny][pos.dir]) {
-					count[nx][ny][pos.dir] = count[pos.x][pos.y][pos.dir];
-					q.offer(new Triple(nx, ny, pos.dir));
-				}
-			} else if (board[nx][ny] == '.') { // 거울 설치 X
-				if (count[pos.x][pos.y][pos.dir] < count[nx][ny][pos.dir]) {
-					count[nx][ny][pos.dir] = count[pos.x][pos.y][pos.dir];
-					q.offer(new Triple(nx, ny, pos.dir));
 				}
 			}
 		}
+
+		int answer = Integer.MAX_VALUE;
+		for (int i = 0; i < 4; i++) {
+			answer = Math.min(answer, dist[targetX.get(1)][targetY.get(1)][i]);
+		}
+		System.out.println(answer);
 	}
 
 	static boolean isOutOfRange(int x, int y) {
@@ -110,7 +108,6 @@ public class Main {
 
 		for (int i = 0; i < n; i++) {
 			board[i] = scan.next().toCharArray();
-
 			for (int j = 0; j < n; j++) {
 				if (board[i][j] == '#') {
 					targetX.add(i);
@@ -119,17 +116,6 @@ public class Main {
 			}
 		}
 
-		// count 배열 초기화
-		count = new int[n][n][4];
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				for (int k = 0; k < 4; k++) {
-					count[i][j][k] = Integer.MAX_VALUE;
-				}
-			}
-		}
-
-		// 탐색 시작점 초기화
 		sx = targetX.get(0);
 		sy = targetY.get(0);
 	}
@@ -143,12 +129,12 @@ public class Main {
 		}
 
 		String next() {
-			try {
-				while (st == null || !st.hasMoreTokens()) {
+			while (st == null || !st.hasMoreTokens()) {
+				try {
 					st = new StringTokenizer(br.readLine());
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 			return st.nextToken();
 		}
