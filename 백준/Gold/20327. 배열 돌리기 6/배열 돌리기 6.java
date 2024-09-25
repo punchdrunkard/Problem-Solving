@@ -1,162 +1,207 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
+
 	static FastReader scan = new FastReader();
-	static int n, r, len;
-	static int[][] a, temp;
+	// 주어진 배열
+
+	static int n, r;
+	static int[][] board, temp;
+
+	static int boardLength;
 
 	public static void main(String[] args) {
+
 		init();
 
 		for (int i = 0; i < r; i++) {
-			int k = scan.nextInt(); // k번 연산을
-			int l = scan.nextInt(); // 단계 l로 적용
+			int k = scan.nextInt();
+			int l = scan.nextInt();
+
 			solve(k, l);
 		}
 
-		printArr(a);
+		printBoard();
 	}
 
-	static void solve(int k, int l) {
-		int size = (1 << l); // 부분 배열의 길이
-		copyOriginalToTemp();
+	static void solve(int opNum, int stage) {
+		copyOriginalBoardToTemp();
+		int subArrayLength = 1 << stage;
 
-		if (k == 1) { // 각 부분 배열을 상하 반전
-			q1(size);
-		} else if (k == 2) {
-			q2(size);
-		} else if (k == 3) {
-			q3(size);
-		} else if (k == 4) {
-			q4(size);
-		} else if (k == 5) {
-			q5(size);
-		} else if (k == 6) {
-			q6(size);
-		} else if (k == 7) {
-			q7(size);
-		} else if (k == 8) {
-			q8(size);
+		if (opNum == 1) {
+			op1(subArrayLength);
+			return;
+		}
+
+		if (opNum == 2) {
+			op2(subArrayLength);
+			return;
+		}
+
+		if (opNum == 3) {
+			op3(subArrayLength);
+			return;
+		}
+
+		if (opNum == 4) {
+			op4(subArrayLength);
+			return;
+		}
+
+		if (opNum == 5) {
+			op5(subArrayLength);
+			return;
+		}
+
+		if (opNum == 6) {
+			op6(subArrayLength);
+			return;
+		}
+
+		if (opNum == 7) {
+			op7(subArrayLength);
+			return;
+		}
+
+		if (opNum == 8) {
+			op8(subArrayLength);
+			return;
 		}
 	}
 
-	static void q1(int size) { // 부분 배열 상하 반전
-		for (int x = 0; x < len; x += size) { // 좌상단 좌표 (x, y) 에 대해
-			for (int y = 0; y < len; y += size) {
-				for (int i = 0; i < size; i++) {
-					for (int j = 0; j < size; j++) {
-						a[x + i][y + j] = temp[x + (size - i - 1)][y + j];
+	// 각 부분 배열을 상하 반전시킨다.
+	static void op1(int subArrayLength) {
+		for (int startX = 0; startX < boardLength; startX += subArrayLength) {
+			for (int startY = 0; startY < boardLength; startY += subArrayLength) {
+
+				for (int x = 0; x < subArrayLength; x++) {
+					for (int y = 0; y < subArrayLength; y++) {
+						board[x + startX][y + startY] = temp[startX + subArrayLength - x - 1][y + startY];
 					}
 				}
 			}
 		}
 	}
 
-	static void q2(int size) { // 부분 배열 좌우 반전
-		for (int x = 0; x < len; x += size) {
-			for (int y = 0; y < len; y += size) {
-				for (int i = 0; i < size; i++) {
-					for (int j = 0; j < size; j++) {
-						a[x + i][y + j] = temp[x + i][y + (size - j - 1)];
+	// 각 부분 배열을 좌우 반전시킨다.
+	static void op2(int subArrayLength) {
+		for (int startX = 0; startX < boardLength; startX += subArrayLength) {
+			for (int startY = 0; startY < boardLength; startY += subArrayLength) {
+
+				for (int x = 0; x < subArrayLength; x++) {
+					for (int y = 0; y < subArrayLength; y++) {
+						board[startX + x][startY + y] = temp[startX + x][startY + (subArrayLength - y - 1)];
 					}
 				}
 			}
 		}
 	}
 
-	static void q3(int size) { // 부분 배열을 반시계 90도 회전
-		for (int x = 0; x < len; x += size) {
-			for (int y = 0; y < len; y += size) {
-				for (int i = 0; i < size; i++) {
-					for (int j = 0; j < size; j++) {
-						a[x + i][y + j] = temp[x + (size - j - 1)][y + i];
+	// 반시계 90도 회전
+	static void op3(int subArrayLength) {
+		for (int startX = 0; startX < boardLength; startX += subArrayLength) {
+			for (int startY = 0; startY < boardLength; startY += subArrayLength) {
+
+				for (int x = 0; x < subArrayLength; x++) {
+					for (int y = 0; y < subArrayLength; y++) {
+						board[startX + x][startY + y] = temp[startX + subArrayLength - y - 1][startY + x];
 					}
 				}
 			}
 		}
 	}
 
-	static void q4(int size) { // 부분 배열을 시계방향 90도 회전
-		for (int x = 0; x < len; x += size) {
-			for (int y = 0; y < len; y += size) {
-				for (int i = 0; i < size; i++) {
-					for (int j = 0; j < size; j++) {
-						a[x + i][y + j] = temp[x + j][y + (size - i - 1)];
+	// 시계 90도 회전
+	static void op4(int subArrayLength) {
+		for (int startX = 0; startX < boardLength; startX += subArrayLength) {
+			for (int startY = 0; startY < boardLength; startY += subArrayLength) {
+
+				for (int x = 0; x < subArrayLength; x++) {
+					for (int y = 0; y < subArrayLength; y++) {
+						board[startX + x][startY + y] = temp[startX + y][startY + subArrayLength - x - 1];
 					}
 				}
 			}
 		}
 	}
 
-	static void q5(int size) {
-		for (int x = 0; x < len; x += size) {
-			for (int y = 0; y < len; y += size) {
-				// 새로운 좌상단 좌표를 구한다.
-				int x1 = len - size - x;
-				int y1 = y;
 
-				for (int i = 0; i < size; i++) {
-					for (int j = 0; j < size; j++) {
-						a[x1 + i][y1 + j] = temp[x + i][y + j];
+
+	static void op5(int subArrayLength) {
+		for (int startX = 0; startX < boardLength; startX += subArrayLength) {
+			for (int startY = 0; startY < boardLength; startY += subArrayLength) {
+
+				int newStartX = boardLength - subArrayLength - startX;
+				int newStartY = startY;
+
+				// 배열 붙여넣기
+				for (int x = 0; x < subArrayLength; x++) {
+					for (int y = 0; y < subArrayLength; y++) {
+						board[newStartX + x][newStartY + y] = temp[startX + x][startY + y];
 					}
 				}
 			}
 		}
 	}
 
-	static void q6(int size) {
-		for (int x = 0; x < len; x += size) {
-			for (int y = 0; y < len; y += size) {
-				// 새로운 좌상단 좌표
-				int x1 = x;
-				int y1 = len - size - y;
+	static void op6(int subArrayLength) {
+		for (int startX = 0; startX < boardLength; startX += subArrayLength) {
+			for (int startY = 0; startY < boardLength; startY += subArrayLength) {
 
-				for (int i = 0; i < size; i++) {
-					for (int j = 0; j < size; j++) {
-						a[x1 + i][y1 + j] = temp[x + i][y + j];
+				int newStartX = startX;
+				int newStartY = boardLength - subArrayLength - startY;
+
+				// 배열 붙여넣기
+				for (int x = 0; x < subArrayLength; x++) {
+					for (int y = 0; y < subArrayLength; y++) {
+						board[newStartX + x][newStartY + y] = temp[startX + x][startY + y];
 					}
 				}
 			}
 		}
 	}
 
-	static void q7(int size) {
-		for (int x = 0; x < len; x += size) {
-			for (int y = 0; y < len; y += size) {
-				int x1 = (y / size) * size;
-				int y1 = (len / size - 1 - x / size) * size;
+	static void op7(int subArrayLength) {
+		for (int startX = 0; startX < boardLength; startX += subArrayLength) {
+			for (int startY = 0; startY < boardLength; startY += subArrayLength) {
 
-				for (int i = 0; i < size; i++) {
-					for (int j = 0; j < size; j++) {
-						a[x1 + i][y1 + j] = temp[x + i][y + j];
+				int newStartX = (startY / subArrayLength) * subArrayLength;
+				int newStartY = (boardLength / subArrayLength - startX / subArrayLength - 1) * subArrayLength;
+
+				// 배열 붙여넣기
+				for (int x = 0; x < subArrayLength; x++) {
+					for (int y = 0; y < subArrayLength; y++) {
+						board[newStartX + x][newStartY + y] = temp[startX + x][startY + y];
 					}
 				}
 			}
 		}
 	}
 
-	static void q8(int size) {
-		for (int x = 0; x < len; x += size) {
-			for (int y = 0; y < len; y += size) {
-				int x1 = (len / size - 1 - y / size) * size;
-				int y1 = (x / size) * size;
+	static void op8(int subArrayLength) {
+		for (int startX = 0; startX < boardLength; startX += subArrayLength) {
+			for (int startY = 0; startY < boardLength; startY += subArrayLength) {
 
-				for (int i = 0; i < size; i++) {
-					for (int j = 0; j < size; j++) {
-						a[x1 + i][y1 + j] = temp[x + i][y + j];
+				int newStartX = (boardLength / subArrayLength - startY / subArrayLength - 1) * subArrayLength;
+				int newStartY = (startX / subArrayLength) * subArrayLength;
+
+				// 배열 붙여넣기
+				for (int x = 0; x < subArrayLength; x++) {
+					for (int y = 0; y < subArrayLength; y++) {
+						board[newStartX + x][newStartY + y] = temp[startX + x][startY + y];
 					}
 				}
 			}
 		}
 	}
 
-	static void printArr(int[][] arr) {
+	static void printBoard() {
 		StringBuilder sb = new StringBuilder();
 
-		for (int i = 0; i < arr.length; i++) {
-			for (int j = 0; j < arr[0].length; j++) {
-				sb.append(arr[i][j]).append(' ');
+		for (int row = 0; row < boardLength; row++) {
+			for (int col = 0; col < boardLength; col++) {
+				sb.append(board[row][col]).append(' ');
 			}
 			sb.append('\n');
 		}
@@ -164,10 +209,10 @@ public class Main {
 		System.out.println(sb);
 	}
 
-	static void copyOriginalToTemp() {
-		for (int i = 0; i < len; i++) {
-			for (int j = 0; j < len; j++) {
-				temp[i][j] = a[i][j];
+	static void copyOriginalBoardToTemp() {
+		for (int row = 0; row < boardLength; row++) {
+			for (int col = 0; col < boardLength; col++) {
+				temp[row][col] = board[row][col];
 			}
 		}
 	}
@@ -175,26 +220,22 @@ public class Main {
 	static void init() {
 		n = scan.nextInt();
 		r = scan.nextInt();
-		len = (1 << n);
-		a = new int[len][len];
-		temp = new int[len][len];
 
-		for (int i = 0; i < len; i++) {
-			for (int j = 0; j < len; j++) {
-				a[i][j] = scan.nextInt();
+		// 한변의 길이
+		boardLength = (int)Math.pow(2, n);
+		board = new int[boardLength][boardLength];
+		temp = new int[boardLength][boardLength];
+
+		for (int row = 0; row < boardLength; row++) {
+			for (int col = 0; col < boardLength; col++) {
+				board[row][col] = scan.nextInt();
 			}
 		}
-
-		copyOriginalToTemp();
 	}
 
 	static class FastReader {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
-
-		int nextInt() {
-			return Integer.parseInt(next());
-		}
 
 		String next() {
 			try {
@@ -208,5 +249,8 @@ public class Main {
 			return st.nextToken();
 		}
 
+		int nextInt() {
+			return Integer.parseInt(next());
+		}
 	}
 }
