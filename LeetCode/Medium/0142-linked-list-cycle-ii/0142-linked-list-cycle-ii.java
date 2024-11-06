@@ -1,11 +1,8 @@
 public class Solution {
     public ListNode detectCycle(ListNode head) {
-        if (head == null || head.next == null) { // 리스트가 비어있거나 노드가 하나뿐일 때
-            return null;
-        }
-        
         ListNode fast = head;
         ListNode slow = head;
+        boolean hasCycle = false;
 
         // fast와 slow가 만나는 지점을 찾음
         while (fast != null && fast.next != null) {
@@ -13,12 +10,13 @@ public class Solution {
             slow = slow.next;
 
             if (slow == fast) {
+                hasCycle = true;
                 break;
             }
         }
 
         // 사이클이 없으면 null 반환
-        if (slow != fast) {
+        if (!hasCycle) {
             return null;
         }
 
