@@ -24,13 +24,9 @@ public class Main {
 		int count = 0;
 		long total = 0;
 
-		// 현재 어디어디 홈침
-		boolean[] stolen = new boolean[n];
-
 		// init
 		for (int i = 0; i < m; i++){
 			total += money[i];
-			stolen[i] = true;
 		}
 
 		if (n == m) {
@@ -45,12 +41,8 @@ public class Main {
 			int removeHouse = i % n;
 			int addHouse = (i + m) % n;
 
-			stolen[removeHouse] = false;
-			stolen[addHouse] = true;
-
 			total -= money[removeHouse];
 			total += money[addHouse];
-
 		}
 
 		return count;
