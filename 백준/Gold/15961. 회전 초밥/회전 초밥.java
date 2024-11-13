@@ -15,20 +15,24 @@ public class Main {
 
 	static int solve(int[] arr) {
 		int localMax = 0;
-		Map<Integer, Integer> window = new HashMap<>();
+		int[] window = new int[d + 1];
+
 		int currentCount = 0;
 
 		// 초기 k개 미리 셋팅
 		for (int i = 0; i < k; i++) {
 			int sushi = arr[i % arr.length];
-			window.put(sushi, window.getOrDefault(sushi, 0) + 1);
-			if (window.get(sushi) == 1) currentCount++;
+
+			if (window[sushi] == 0) {
+				currentCount++;
+			}
+			window[sushi]++;
 		}
 
 		// 슬라이딩 윈도우 시작
 		for (int i = 0; i < arr.length; i++) {
 			// 쿠폰 초밥 포함 여부에 따라 최대 종류 수 갱신
-			if (!window.containsKey(c)) {
+			if (window[c] == 0) {
 				localMax = Math.max(localMax, currentCount + 1);
 			} else {
 				localMax = Math.max(localMax, currentCount);
@@ -39,15 +43,20 @@ public class Main {
 			int addSushi = arr[(i + k) % arr.length];
 
 			// 기존 초밥 제거
-			window.put(removeSushi, window.get(removeSushi) - 1);
-			if (window.get(removeSushi) == 0) {
-				window.remove(removeSushi);
+			if (window[removeSushi] > 0) {
+				window[removeSushi]--;
+			}
+
+			if (window[removeSushi] == 0) {
 				currentCount--;
 			}
 
 			// 새로운 초밥 추가
-			window.put(addSushi, window.getOrDefault(addSushi, 0) + 1);
-			if (window.get(addSushi) == 1) currentCount++;
+			if (window[addSushi] == 0) {
+				currentCount++;
+			}
+
+			window[addSushi]++;
 		}
 
 		return localMax;
