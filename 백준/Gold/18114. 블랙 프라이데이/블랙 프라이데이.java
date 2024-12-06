@@ -16,27 +16,14 @@ public class Main {
 	static boolean solve() {
 		Arrays.sort(w);
 
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < w.length; i++) {
 			long target = c - w[i];
-
-			if (target == 0) {
-				return true;
-			}
-
-			// 물건 두 개
-			int idx = Arrays.binarySearch(w, target);
-
-			if (idx < n && idx >= 0 && idx != i) {
-				return true;
-			}
-
-			// 물건 세 개
 			for (int j = 0; j < n; j++) {
 				if (i == j) {
 					continue;
 				}
 
-				idx = Arrays.binarySearch(w, target - w[j]);
+				int idx = Arrays.binarySearch(w, target - w[j]);
 				if (idx < n && idx >= 0 && idx != j && idx != i) {
 					return true;
 				}
@@ -49,7 +36,7 @@ public class Main {
 
 	static void init() {
 		n = scan.nextInt();
-		w = new long[n];
+		w = new long[n + 2];
 
 		c = scan.nextInt();
 
