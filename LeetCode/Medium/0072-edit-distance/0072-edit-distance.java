@@ -1,5 +1,5 @@
 class Solution {
-    Map<String, Integer> memo = new HashMap<>();
+    int[][] memo;
     String word1, word2;
 
     public int minDistance(String _word1, String _word2) {
@@ -18,26 +18,29 @@ class Solution {
             return i + 1;
         }
 
-        String key = i + "," + j;
-        if (memo.containsKey(key)) {
-            return memo.get(key);
+        if (memo[i][j] != -1) {
+            return memo[i][j];
         }
 
         if (word1.charAt(i) == word2.charAt(j)) { // skip
-            memo.put(key, dp(i - 1, j - 1));
+            memo[i][j] = dp(i - 1, j - 1);
         } else {
             int insert = dp(i, j - 1) + 1;
             int delete = dp(i - 1, j) + 1;
             int replace = dp(i - 1, j - 1) + 1;
 
-            memo.put(key, Math.min(insert, Math.min(delete, replace)));
+            memo[i][j] = Math.min(insert, Math.min(delete, replace));
         }
 
-        return memo.get(key);
+        return memo[i][j];
     }
 
     void init(String _word1, String _word2) {
         word1 = _word1;
         word2 = _word2;
+        memo = new int[word1.length()][word2.length()];
+        for (int i = 0; i < memo.length; i++) {
+            Arrays.fill(memo[i], -1);
+        }
     }
 }
