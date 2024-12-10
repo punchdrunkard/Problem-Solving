@@ -52,10 +52,9 @@ public class Main {
 		int maxCount = -1;
 
 		List<Pair> maxList = new LinkedList<>();
-		Arrays.sort(words);
-		
+
 		for (int i = 0; i < words.length; i++) {
-			for (int j = i; j < words.length; j++) {
+			for (int j = 0; j < i; j++) {
 				if (i == j)
 					continue;
 
