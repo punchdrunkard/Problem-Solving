@@ -1,34 +1,42 @@
 class Solution {
 
     int[] nums;
-    int target;
-    // cache[idx][i] := the number of different expressions of target i
-    Map<String, Integer> cache;
+    int[][] cache;
 
     public int findTargetSumWays(int[] nums, int target) {
-        this.nums = nums;
-        this.target = target;
-        cache = new HashMap<>();
+        int totalSum = Arrays.stream(nums).sum();
+        int finalTarget = (target + totalSum) / 2;
+        if ((target + totalSum) % 2 != 0 || (target + totalSum) < 0) {
+            return 0;
+        }
 
-        return dp(0, 0);
+        this.nums = nums;
+        cache = new int[nums.length + 1][1001];
+        for (int i = 0; i < cache.length; i++) {
+            Arrays.fill(cache[i], -1);
+        }
+
+        return dp(nums.length, finalTarget);
     }
 
-    int dp(int idx, int current) {
+    int dp(int i, int target) {
         // base case
-        if (idx == nums.length) {
-            return current == target ? 1 : 0;
+        if (i == 0) {
+            return target == 0 ? 1 : 0;
         }
 
-        String key = idx + ", " + current;
-
-        if (cache.containsKey(key)) {
-            return cache.get(key);
+        if (target < 0) {
+            return 0;
         }
 
-        int add = dp(idx + 1, current + nums[idx]);
-        int substract = dp(idx + 1, current - nums[idx]);
+        if (cache[i][target] != -1) {
+            return cache[i][target];
+        }
 
-        cache.put(key, add + substract);
-        return cache.get(key);
+        int selected = dp(i - 1, target - nums[i - 1]);
+        int notSelected = dp(i - 1, target);
+
+        cache[i][target] = selected + notSelected;
+        return cache[i][target];
     }
 }
