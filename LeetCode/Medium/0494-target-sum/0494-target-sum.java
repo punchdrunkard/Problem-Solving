@@ -1,16 +1,34 @@
 class Solution {
+
+    int[] nums;
+    int target;
+    // cache[idx][i] := the number of different expressions of target i
+    Map<String, Integer> cache;
+
     public int findTargetSumWays(int[] nums, int target) {
-        return backtracking(0, 0, nums, target);
+        this.nums = nums;
+        this.target = target;
+        cache = new HashMap<>();
+
+        return dp(0, 0);
     }
 
-    int backtracking(int idx, int current, int[] nums, int target) {
+    int dp(int idx, int current) {
+        // base case
         if (idx == nums.length) {
             return current == target ? 1 : 0;
         }
 
-        int add = backtracking(idx + 1, current + nums[idx], nums, target);
-        int substract = backtracking(idx + 1, current - nums[idx], nums, target);
+        String key = idx + ", " + current;
 
-        return add + substract;
+        if (cache.containsKey(key)) {
+            return cache.get(key);
+        }
+
+        int add = dp(idx + 1, current + nums[idx]);
+        int substract = dp(idx + 1, current - nums[idx]);
+
+        cache.put(key, add + substract);
+        return cache.get(key);
     }
 }
