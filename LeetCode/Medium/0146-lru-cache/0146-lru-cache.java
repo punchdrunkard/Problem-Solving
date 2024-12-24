@@ -31,11 +31,7 @@ class LRUCache {
         }
 
         public boolean removeLast() {
-            if (size <= 0) {
-                return false;
-            }
-            remove(tail.prev);
-            return true;
+            return remove(tail.prev);
         }
 
         public boolean remove(Node x) {
@@ -112,7 +108,7 @@ class LRUCache {
         // System.out.println("evict key " + leastRecentlyUsed.key);
 
         removeElement(leastRecentlyUsed);
-    } 
+    }
 
     private void insertElement(Node x) {
         cache.addFirst(x);
