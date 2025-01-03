@@ -1,7 +1,7 @@
 class Solution {
 
     static int n;
-    static int[] pSum, pSumReversed;
+    static long[] pSum, pSumReversed;
 
     public int waysToSplitArray(int[] nums) {
         init(nums);
@@ -33,7 +33,7 @@ class Solution {
 
     static void init(int[] nums) {
         n = nums.length;
-        pSum = new int[n];
-        pSumReversed = new int[n];
+        pSum = new long[n];
+        pSumReversed = new long[n];
     }
 }
