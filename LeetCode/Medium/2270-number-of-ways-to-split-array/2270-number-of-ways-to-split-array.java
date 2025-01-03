@@ -1,33 +1,19 @@
 class Solution {
-
-    static int n;
-    static long[] pSum;
-
     public int waysToSplitArray(int[] nums) {
-        init(nums);
-        calculatePrefixSum(nums);
-
+        long sum = Arrays.stream(nums).asLongStream().sum();
         int count = 0;
 
-        for (int i = 0; i < n - 1; i++) {
-            if (pSum[i] >= (pSum[n - 1] - pSum[i])) {
+        long left = 0;
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            left += nums[i];
+            long right = sum - left;
+
+            if (left >= right) {
                 count++;
             }
         }
 
         return count;
-    }
-
-    static void calculatePrefixSum(int[] nums) {
-        pSum[0] = nums[0];
-
-        for (int i = 1; i < n; i++) {
-            pSum[i] = pSum[i - 1] + nums[i];
-        }
-    }
-
-    static void init(int[] nums) {
-        n = nums.length;
-        pSum = new long[n];
     }
 }
