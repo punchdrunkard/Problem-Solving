@@ -19,33 +19,22 @@ class Solution {
     }
 
     int[] calcuatePrefixSum(String[] words) {
-        boolean[] isVowelWord = new boolean[words.length];
         int[] prefixSum = new int[words.length + 1];
 
-        for (int i = 0; i < words.length; i++) {
-            char start = words[i].charAt(0);
-            char end = words[i].charAt(words[i].length() - 1);
-            if (isVowel(start) && isVowel(end)) {
-                isVowelWord[i] = true;
-            }
-        }
-
         for (int i = 1; i <= words.length; i++) {
-            prefixSum[i] = prefixSum[i - 1] + (isVowelWord[i - 1] ? 1 : 0);
+            prefixSum[i] = prefixSum[i - 1]
+                    + (isVowelWords(words[i - 1]) ? 1 : 0);
         }
 
         return prefixSum;
     }
 
+    boolean isVowelWords(String word) {
+        return isVowel(word.charAt(0)) && isVowel(word.charAt(word.length() - 1));
+    }
+
     boolean isVowel(char ch) {
-        char[] vowels = new char[] { 'a', 'e', 'i', 'o', 'u' };
-
-        for (char vowel : vowels) {
-            if (ch == vowel) {
-                return true;
-            }
-        }
-
-        return false;
+        Set<Character> vowels = new HashSet<>(Arrays.asList('a', 'e', 'i', 'o', 'u'));
+        return vowels.contains(ch);
     }
 }
