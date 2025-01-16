@@ -1,30 +1,34 @@
 class Solution {
-
     List<String> answer = new ArrayList<>();
     int n;
 
     public List<String> generateParenthesis(int n) {
         this.n = n;
-        generateString(0, 0, "");
+        generateParenthesisHelper(0, 0, new StringBuilder());
         return answer;
     }
-
-    void generateString(int openCount, int closeCount, String current) {
-        
-        if (openCount == n && closeCount == n) {
-            answer.add(current);
-            System.out.println(current);
+    
+    // well-formed parentheses : always open >= close
+    void generateParenthesisHelper(int openCount, int closeCount, StringBuilder current) {
+        if (openCount < closeCount) {
             return;
         }
 
+        if (openCount == n && closeCount == n) {
+            answer.add(current.toString());
+            return;    
+        }
+        
         if (openCount < n) {
-            generateString(openCount + 1, closeCount, current + "(");
+            current.append('(');
+            generateParenthesisHelper(openCount + 1, closeCount, current);
+            current.setLength(current.length() - 1);
         }
 
         if (openCount > closeCount) {
-            generateString(openCount, closeCount +  1, current + ")");
+            current.append(')');
+            generateParenthesisHelper(openCount, closeCount + 1, current);
+            current.setLength(current.length() - 1);
         }
     }
-
-
 }
