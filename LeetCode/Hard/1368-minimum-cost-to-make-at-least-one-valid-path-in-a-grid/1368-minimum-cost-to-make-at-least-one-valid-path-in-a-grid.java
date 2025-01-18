@@ -33,7 +33,7 @@ class Solution {
         Deque<State> deque = new ArrayDeque<>();
         deque.offer(new State(0, 0, 0));
         minCost[0][0] = 0;
-        
+
         while (!deque.isEmpty()) {
             State current = deque.pollFirst();
             int cx = current.x;
@@ -43,6 +43,10 @@ class Solution {
             // 현재 비용이 기록된 비용보다 크면 스킵 (최적화)
             if (cost > minCost[cx][cy]) {
                 continue;
+            }
+
+            if (cx == m - 1 && cy == n - 1) {
+                return cost;
             }
 
             for (int dir = 1; dir <= 4; dir++) {
