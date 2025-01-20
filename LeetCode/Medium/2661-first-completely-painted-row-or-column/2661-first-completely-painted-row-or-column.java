@@ -1,7 +1,7 @@
 class Solution {
 
     public int firstCompleteIndex(int[] arr, int[][] mat) {
-        Map<Integer, Integer> numToIndex = createIndexMap(arr);
+        int[] numToIndex = createIndexMap(arr);
 
         int minIndexForRow = findMinCompleteIndex(mat, numToIndex, true); // 행 기준 탐색
         int minIndexForCol = findMinCompleteIndex(mat, numToIndex, false); // 열 기준 탐색
@@ -11,16 +11,16 @@ class Solution {
     }
 
     // 숫자와 인덱스 매핑을 생성하는 메서드
-    private Map<Integer, Integer> createIndexMap(int[] arr) {
-        Map<Integer, Integer> numToIndex = new HashMap<>();
+    private int[] createIndexMap(int[] arr) {
+        int[] numToIndex = new int[(int) 1e5 + 1];
         for (int i = 0; i < arr.length; i++) {
-            numToIndex.put(arr[i], i);
+            numToIndex[arr[i]] = i;
         }
         return numToIndex;
     }
 
     // 행 또는 열을 기준으로 최소 완성 인덱스를 찾는 메서드
-    private int findMinCompleteIndex(int[][] mat, Map<Integer, Integer> numToIndex, boolean isRow) {
+    private int findMinCompleteIndex(int[][] mat, int[] numToIndex, boolean isRow) {
         int minIndex = Integer.MAX_VALUE;
 
         int outerLoop = isRow ? mat.length : mat[0].length; // 행 또는 열 개수
@@ -31,7 +31,7 @@ class Solution {
 
             for (int inner = 0; inner < innerLoop; inner++) {
                 int value = isRow ? mat[outer][inner] : mat[inner][outer];
-                maxIndexInLine = Math.max(maxIndexInLine, numToIndex.get(value));
+                maxIndexInLine = Math.max(maxIndexInLine, numToIndex[value]);
             }
 
             minIndex = Math.min(minIndex, maxIndexInLine);
