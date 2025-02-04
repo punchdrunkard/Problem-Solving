@@ -1,26 +1,20 @@
 class Solution {
     public int maxAscendingSum(int[] nums) {
-        // nums.length <= 100 -> brute force available
+        int maxSum = 0;
+        int current = nums[0];
 
-        int max = -1;
-        for (int st = 0; st < nums.length; st++) {
-            int sum = nums[st];
-            int prev = nums[st];
+        for (int i = 1; i < nums.length; ++i) {
             
-            for (int i = st + 1; i < nums.length; i++) {
-                int curr = nums[i];
-
-                if (prev >= curr) {
-                    break;
-                }
-
-                sum += curr;
-                prev = curr;
+            if (nums[i] > nums[i - 1]) {
+                current += nums[i];
+            } else {
+                maxSum = Math.max(maxSum, current);
+                current = nums[i];
             }
-
-            max = Math.max(max, sum);
         }
+        
+        maxSum = Math.max(maxSum, current);
 
-        return max;
+        return maxSum;
     }
 }
