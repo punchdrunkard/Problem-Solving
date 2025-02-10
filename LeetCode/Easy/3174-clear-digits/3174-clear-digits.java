@@ -1,18 +1,17 @@
-import java.util.regex.*;
-
 class Solution {
-     public static String removeDigits(String s) {
-        Pattern pattern = Pattern.compile("\\D?\\d"); // Matches a digit and the closest preceding non-digit character
-        Matcher matcher;
-        
-        while ((matcher = pattern.matcher(s)).find()) {
-            s = matcher.replaceFirst(""); // Replace the first occurrence
-        }
-        
-        return s;
-    }
-
     public String clearDigits(String s) {
-        return removeDigits(s);
+        StringBuilder sb = new StringBuilder();
+
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                if (sb.length() > 0) {
+                    sb.setLength(sb.length() - 1);
+                }
+            } else {
+                sb.append(c);
+            }
+        }
+
+        return sb.toString();
     }
 }
