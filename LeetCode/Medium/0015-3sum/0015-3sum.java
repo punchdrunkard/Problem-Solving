@@ -1,47 +1,32 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
-
-        List<List<Integer>> result = new LinkedList<>();
-
-        Set<Integer> visited = new HashSet<>();
+        
+        List<List<Integer>> result = new LinkedList();
 
         for (int i = 0; i < nums.length; i++) {
-            int target = -nums[i];
-
-            if (visited.contains(target)) {
+            if (i > 0 && nums[i - 1] == nums[i]) {
                 continue;
             }
 
-            // two pointer
-            int lo = i + 1;
-            int hi = nums.length - 1;
-            
-            while (lo < hi) {
-                int left = nums[lo];
-                int right = nums[hi];
+            int target = -nums[i];
+            Set<Integer> set = new HashSet();
 
-                int sum = left + right;
+            for (int j = i + 1; j < nums.length; j++) {
+                int other = target - nums[j];
+                
+                if (set.contains(other)) {
+                    result.add(List.of(-target, nums[j], other));
 
-                if (sum == target) {
-                    result.add(List.of(-target, left, right));
-
-                    while (lo < hi && left == nums[lo]) {
-                        lo++;
+                    while (j + 1 < nums.length && nums[j] == nums[j + 1]) {
+                        j++;
                     }
-
-                    while (lo < hi && right == nums[hi]) {
-                        hi--;
-                    }
-                } else if (sum > target) {
-                    hi--;
                 } else {
-                    lo++;
+                    set.add(nums[j]);
                 }
             }
 
-            visited.add(target);
-        }
+        } // end of for
 
         return result;
     }
