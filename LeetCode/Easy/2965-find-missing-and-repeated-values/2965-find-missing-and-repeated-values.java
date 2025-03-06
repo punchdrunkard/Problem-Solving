@@ -1,33 +1,57 @@
 class Solution {
     public int[] findMissingAndRepeatedValues(int[][] grid) {
         int n = grid.length;
+
+        long gridSum = calculateGridSum(grid);
+        long gridSquareSum = calculateGridSquareSum(grid);
+
+        long totalSum = calculateConsectiveSum(n * n);
+        long totalSquareSum = calculateConsectiveSquareSum(n * n);
         
-        Map<Integer, Integer> counter = new HashMap<>();
-        for (int x = 0; x < grid.length; x++) {
-            for (int y = 0; y < grid[0].length; y++) {
-                counter.put(grid[x][y], counter.getOrDefault(grid[x][y], 0) + 1);
+        // gridSum = totalSum + a - b
+        // a - b = gridSum - totalSum 
+        long diff = gridSum - totalSum;
+        // gridSquareSum = totalSquareSum + a^2 - b^2
+        long squareDiff = gridSquareSum - totalSquareSum;
+        // a^2 - b^2 = gridSquareSum - totalSquareSum
+        // a^2 - b^2 = (a + b) * (a - b)
+        // a + b = (a^2 - b^2) / (a - b) 
+
+        long a = ((squareDiff / diff) + diff) / 2l;
+        long b = ((squareDiff / diff) - diff) / 2l;
+
+        return new int[]{(int) a, (int) b};
+    }
+
+    long calculateConsectiveSquareSum(long n) {
+        return n * (n + 1) * (2 * n + 1) / 6;
+    }
+
+    long calculateConsectiveSum(long n) {
+        return n * (n + 1) / 2;
+    }
+
+    long calculateGridSum(int[][] grid) {
+        long sum = 0;
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                sum += grid[i][j];
             }
         }
 
-        int a = -1; 
-        int b = -1;
-        for (int i = 1; i <= n * n; i++) {
-            int appearNum = counter.getOrDefault(i, 0);
-            if (appearNum == 0) {
-                b = i;
-                continue;
-            }
+        return sum;
+    }
 
-            if (appearNum == 2) {
-                a = i;
-                continue;
-            }
+    long calculateGridSquareSum(int[][] grid) {
+        long sum = 0;
 
-            if (a != -1 && b != -1) {
-                break;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                sum += (grid[i][j] * grid[i][j]);
             }
         }
 
-        return new int[]{a, b};
+        return sum;
     }
 }
