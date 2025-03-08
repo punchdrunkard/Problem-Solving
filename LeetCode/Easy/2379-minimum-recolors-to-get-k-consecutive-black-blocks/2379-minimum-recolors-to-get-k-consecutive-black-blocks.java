@@ -1,31 +1,39 @@
 class Solution {
+
     static final char WHITE = 'W';
-    static final char BLACK = 'B';
 
-    // n = 100 -> brute force
     public int minimumRecolors(String blocks, int k) {
-        int min = Integer.MAX_VALUE;
+        // sliding window
+        int lo = 0;
+        int hi = k - 1;
+        int current = 0;
+        
+        for (int i = 0; i < k; i++) {
+            if (blocks.charAt(i) == WHITE) {
+                current++;
+            }
+        }   
 
-        for (int i = 0; i < blocks.length(); i++) {
-            int blackCount = 0; // number of consecutive black blocks
-            int recolored = 0;
+        int answer = current;
 
-            if (i + k > blocks.length()) {
-                continue;
+        while (hi < blocks.length() - 1) {
+            
+            // 왼쪽 끝 문자를 제거한다. 
+            if (blocks.charAt(lo) == WHITE) {
+                current--;
+            }
+            lo++;
+
+            // 오른쪽 끝 이동 후, 새 문자를 추가한다.
+            hi++;
+            if (blocks.charAt(hi) == WHITE) {
+                current++;
             }
 
-            for (int j = i; j < i + k; j++) {
-                if (blocks.charAt(j) == WHITE) {
-                    recolored++;
-                }
-                blackCount++;
-            }
 
-            if (blackCount == k) {
-                min = Math.min(min, recolored);
-            }
+            answer = Math.min(answer, current);
         }
 
-        return min;
+        return answer;
     }
 }
