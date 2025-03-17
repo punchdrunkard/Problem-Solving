@@ -41,11 +41,10 @@ public class Main {
 	public static void main(String[] args) {
 		init();
 		solve();
-		System.out.println(ansMin);
+		System.out.println(ansMin == INF ? -1 : ansMin);
 	}
 
 	static void solve() {
-
 		for (int threshold = 1; threshold <= 20; threshold++) {
 			if (dijkstra(threshold)) {
 				ansMin = Math.min(threshold, ansMin);
