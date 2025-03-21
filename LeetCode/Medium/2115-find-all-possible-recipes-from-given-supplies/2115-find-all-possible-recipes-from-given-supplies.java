@@ -15,7 +15,7 @@ class Solution {
             for (String ingredient: ingredients.get(recipesIdx)) {
                 // 재료에 다른 레시피가 포함되어 있음
                 if (!availableSupplies.contains(ingredient)) {
-                    if (recipesToIdx.get(ingredient) != recipesIdx) {
+                    if (recipesToIdx.containsKey(ingredient) && recipesToIdx.get(ingredient) != recipesIdx) {
                         adj[recipesToIdx.get(ingredient)].add(recipesIdx);
                     }
                     inDegree[recipesIdx]++;
