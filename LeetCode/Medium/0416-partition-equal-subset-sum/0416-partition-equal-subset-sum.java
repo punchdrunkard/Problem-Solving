@@ -22,7 +22,7 @@ class Solution {
                 if (j - nums[i] < 0) {
                     dp[i][j] = dp[i - 1][j];
                 } else {
-                    dp[i][j] = dp[i - 1][j] || dp[i][j - nums[i]];
+                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i]];
                 }
             }
         }
