@@ -14,22 +14,27 @@ class Solution {
         return answer;
     }
     
-    void dfs(int count, String current, String target){
+    boolean dfs(int count, String current, String target){
         // base case
         if (count > 5) {
-            return;
+            return false;
         }
         
         seq++;
         
         if (current.equals(target)) {
             answer = seq - 1;
-            return;
+            return true;
         }
         
-        // 계속 진행
+        
         for (int i = 0; i < 5; i++) {
-            dfs(count + 1, current + VOWELS[i], target);
+            // 이미 찾았으면 더 이상 진행하지 않기 
+            if (dfs(count + 1, current + VOWELS[i], target)) {
+                continue;
+            }
         }
+        
+        return false;
     }
 }
