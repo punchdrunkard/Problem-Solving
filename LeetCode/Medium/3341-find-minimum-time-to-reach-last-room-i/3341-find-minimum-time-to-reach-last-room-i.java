@@ -45,7 +45,7 @@ class Solution {
                 int nx = cx + DX[d];
                 int ny = cy + DY[d];
 
-                if (isOutOfRange(nx, ny) || dist[nx][ny] != INF) {
+                if (isOutOfRange(nx, ny)) {
                     continue;
                 }
 
