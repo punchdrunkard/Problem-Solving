@@ -52,8 +52,10 @@ class Solution {
                     }
 
                     int nTime = Math.max(cTime, moveTime[nx][ny]) + 1;
-                    pq.offer(new State(nx, ny, nTime));
-                    dist[nx][ny] = nTime;
+                    if (dist[nx][ny] > nTime) {
+                        pq.offer(new State(nx, ny, nTime));
+                        dist[nx][ny] = nTime;
+                    }
                 }
             }
 
