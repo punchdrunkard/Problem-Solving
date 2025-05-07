@@ -26,7 +26,7 @@ class Solution {
         while (!pq.isEmpty()) {
 
             State current = pq.poll();
-            System.out.println(current);
+            // System.out.println(current);
 
             int cx = current.x;
             int cy = current.y;
