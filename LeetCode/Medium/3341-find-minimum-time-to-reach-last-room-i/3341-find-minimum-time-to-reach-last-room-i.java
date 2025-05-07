@@ -24,42 +24,38 @@ class Solution {
         pq.offer(start);
 
         while (!pq.isEmpty()) {
-            int sz = pq.size();
 
-            for (int i = 0; i < sz; i++) {
-                State current = pq.poll();
-                System.out.println(current);
+            State current = pq.poll();
+            System.out.println(current);
 
-                int cx = current.x;
-                int cy = current.y;
-                int cTime = current.time;
+            int cx = current.x;
+            int cy = current.y;
+            int cTime = current.time;
 
-                // dijkstra 검증
-                if (cTime > dist[cx][cy]) {
+            // dijkstra 검증
+            if (cTime > dist[cx][cy]) {
+                continue;
+            }
+
+            if (cx == n - 1 && cy == m - 1) {
+                return dist[cx][cy];
+            }
+
+            for (int d = 0; d < 4; d++) {
+                int nx = cx + DX[d];
+                int ny = cy + DY[d];
+
+                if (isOutOfRange(nx, ny) || dist[nx][ny] != INF) {
                     continue;
                 }
 
-                if (cx == n - 1 && cy == m - 1) {
-                    return dist[cx][cy];
-                }
-
-                for (int d = 0; d < 4; d++) {
-                    int nx = cx + DX[d];
-                    int ny = cy + DY[d];
-
-                    if (isOutOfRange(nx, ny) || dist[nx][ny] != INF) {
-                        continue;
-                    }
-
-                    int nTime = Math.max(cTime, moveTime[nx][ny]) + 1;
-                    if (dist[nx][ny] > nTime) {
-                        pq.offer(new State(nx, ny, nTime));
-                        dist[nx][ny] = nTime;
-                    }
+                int nTime = Math.max(cTime, moveTime[nx][ny]) + 1;
+                if (dist[nx][ny] > nTime) {
+                    pq.offer(new State(nx, ny, nTime));
+                    dist[nx][ny] = nTime;
                 }
             }
-
-        } // end of pq 
+        } // end of pq-loop
 
         return dist[n - 1][m - 1];
     }
