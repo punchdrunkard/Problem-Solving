@@ -20,11 +20,21 @@ public class Main {
 	static int solve() {
 		int totalWater = 0;
 
-		for (int i = 1; i < w - 1; i++) {
-			int leftMax = getLeftMax(i);
-			int rightMax = getRightMax(i);
+		int[] leftMax = new int[w]; // leftMax[i] := 0 ~ i 까지 왼쪽 최대
+		leftMax[0] = heights[0];
 
-			int waterLevel = Math.min(leftMax, rightMax);
+		int[] rightMax = new int[w]; // rightMax[i] := i ~ w - 1 까지의 오른쪽 최대
+		rightMax[w - 1] = heights[w - 1];
+
+		for (int i = 1; i < w; i++) {
+			leftMax[i] = Math.max(leftMax[i - 1], heights[i]);
+		}
+		for (int i = w - 2; i >= 0; i--) {
+			rightMax[i] = Math.max(rightMax[i + 1], heights[i]);
+		}
+
+		for (int i = 1; i < w - 1; i++) {
+			int waterLevel = Math.min(leftMax[i], rightMax[i]);
 			int water = waterLevel - heights[i];
 
 			if (water > 0) {
@@ -33,22 +43,6 @@ public class Main {
 		}
 
 		return totalWater;
-	}
-
-	static int getLeftMax(int k) {
-		int max = 0;
-		for (int i = 0; i <= k; i++) {
-			max = Math.max(heights[i], max);
-		}
-		return max;
-	}
-
-	static int getRightMax(int k) {
-		int max = 0;
-		for (int i = k; i < w; i++) {
-			max = Math.max(heights[i], max);
-		}
-		return max;
 	}
 
 	static void input() {
