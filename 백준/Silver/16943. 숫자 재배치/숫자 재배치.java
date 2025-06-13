@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -9,8 +10,9 @@ public class Main {
 
 	static FastReader scan = new FastReader();
 	static int a, b;
+	static String aStr;
 
-	static List<List<Integer>> sequences = new ArrayList<>();
+	static List<int[]> sequences = new ArrayList<>();
 
 	public static void main(String[] args) {
 		init();
@@ -19,34 +21,32 @@ public class Main {
 
 	static void solve() {
 		int answer = -1;
-
-		String s = String.valueOf(a);
-		int n = s.length();
+		aStr = String.valueOf(a);
+		int n = aStr.length();
+		int[] current = new int[n];
 		boolean[] visited = new boolean[n];
-		dfs(0, n, new ArrayList<>(), visited);
 
-		for (List<Integer> seq : sequences) {
-			// 해당 seq 로
-			StringBuilder c = new StringBuilder();
+		dfs(0, n, current, visited);
 
-			for (int i : seq) {
-				c.append(s.charAt(i));
+		for (int[] seq : sequences) {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < seq.length; i++) {
+				sb.append(aStr.charAt(seq[i]));
 			}
 
-			String cStr = c.toString();
-			int cVal = Integer.parseInt(cStr);
-			if (cStr.charAt(0) != '0' && cVal < b) {
-				answer = Math.max(cVal, answer);
+			int c = Integer.parseInt(sb.toString());
+			if (c < b) {
+				answer = Math.max(answer, c);
 			}
 		}
 
 		System.out.println(answer);
 	}
 
-	static void dfs(int idx, int n, List<Integer> current, boolean[] visited) {
-		if (idx >= n) {
-			if (current.size() == n) {
-				sequences.add(new ArrayList<>(current));
+	static void dfs(int depth, int n, int[] current, boolean[] visited) {
+		if (depth == n) {
+			if (aStr.charAt(current[0]) != '0') {
+				sequences.add(Arrays.copyOf(current, current.length));
 			}
 
 			return;
@@ -57,11 +57,11 @@ public class Main {
 				continue;
 			}
 
+			// pruning
 			visited[i] = true;
-			current.add(i);
-			dfs(idx + 1, n, current, visited);
+			current[depth] = i;
+			dfs(depth + 1, n, current, visited);
 			visited[i] = false;
-			current.remove(current.size() - 1);
 		}
 	}
 
