@@ -1,59 +1,25 @@
+import java.util.*;
+
 class Solution {
-    // 어떤 원소 집단에서 최대 공약수 a를 구하고 O(nlog~)
-    // 그 최대 공약수가 다른 집단에 대해 다 못나누는 조건을 만족하면 됨 O(n) 
-    // 시간 복잡도 내에 들어올 수 있어 보임 ! 
+    // 50만이라서 전부 도는건 일단 말이 안되고...
+    // 이분탐색을 생각해볼까? 
+    // arrayA 에 있는 원소를 기준으로 얘를 탐색하는데는 logN인데 각각 arrayB를 구하면 N 이라서
+    // 아슬아슬하게 가능할 것 같기도..?
+    
     public int solution(int[] arrayA, int[] arrayB) {
+        Arrays.sort(arrayA);
+        Arrays.sort(arrayB); // for cache hit 
+        
         int answer = 0;
-        int aGCD = findArrayGcd(arrayA);
-        int bGCD = findArrayGcd(arrayB);
-        
-        
-        // 1. aGCD 가 arrayB의 모든 원소를 나눌 수 없어야 한다.
-        if (check(aGCD, arrayB)) {
-            answer = Math.max(answer, aGCD);
-        }
-        // 2. bGCD 가 arrayA의 모든 원소르 나눌 수 없어야 한다.
-        if (check(bGCD, arrayA)) {
-            answer = Math.max(answer, bGCD);
-        }
-   
         return answer;
     }
     
-    boolean check(int a, int[] arr) {
-        if (a == 1) {
-            return false;
-        }
-        
-        for (int i: arr) {
-            if (i % a == 0) {
-                return false;
-            }
-        }
-        
-        return true;
-    }
-    int findArrayGcd(int[] arr) {
-        int res = arr[0];
-        
-        for (int i = 1; i < arr.length; i++) {
-            res = gcd(res, arr[i]);
-        }
-        
-        return res;
-    }
-    
-    int gcd(int a, int b) {
-        while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
-        }
-        
-        return a;
+    int bs() {
+        return 0;
     }
     
     void sout(Object o) {
         System.out.println(o);
     }
+    
 }
