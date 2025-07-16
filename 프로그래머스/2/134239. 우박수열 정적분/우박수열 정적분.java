@@ -16,40 +16,30 @@ class Solution {
             int en = b <= 0 ? seq.length - 1 + b : b;
             
             if (st > en) {
-                answer[i] = -1.0;
+                answer[i] = -1;
                 continue;
             }
             
-            if (st == en) {
-                answer[i] = 0;
-                continue;
-            }
-            
-            if (en >= seq.length) {
+            if (en > seq.length) {
                 en = seq.length - 1;
             }
             
-            // sout("st: " + st + ", en: " + en);
-
-            answer[i] = pSum[en - 1] - (st > 0 ? pSum[st - 1] : 0);
+            answer[i] = pSum[en] - pSum[st];
         }
         
-        
+
         return answer;
     }
     
     // 누적합 구하기 
     double[] calculatePrefixSum(int[] seq) {
         int n = seq.length;
-        if (n <= 1) { // 수열의 길이가 1 이하면 계산할 넓이가 없음
-        return new double[n]; 
-    }
-        
+
         double[] pSum = new double[n];
-        pSum[0] = calculateArea(0, seq);
-     
-        for (int i = 1; i < n - 1; i++) {
-            pSum[i] = pSum[i - 1] + calculateArea(i, seq);
+        pSum[0] = 0;
+        
+        for (int i = 0; i < n - 1; i++) {
+            pSum[i + 1] = pSum[i] + calculateArea(i, seq);
         }
         
         return pSum;
