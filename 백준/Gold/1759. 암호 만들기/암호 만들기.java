@@ -20,15 +20,16 @@ public class Main {
 
 	public static void main(String[] args) {
 		init();
-		solve(0, new ArrayList<>(), 0, 0);
+		solve(0, new ArrayList<>(), 0);
 		System.out.println(sb);
 	}
 
 	// alphabets에 있는 char 을 "조건에 맞게" 개 고르기
-	static void solve(int start, List<Character> current, int vowelCount, int consonantCount) {
+	static void solve(int start, List<Character> current, int vowelCount) {
 		// base case
 		if (current.size() == l) {
 			// 조건 : 최소 한 개의 모음, 최소 두 개의 자음
+			int consonantCount = current.size() - vowelCount; // 알파벳은 자음아니면 모음이니까..
 			if (vowelCount >= 1 && consonantCount >= 2) {
 				for (char c : current) {
 					sb.append(c);
@@ -43,9 +44,7 @@ public class Main {
 			// i번째 원소를 택한다.
 			current.add(alphabets[i]);
 
-			boolean isCurrentCharVowel = isVowel(alphabets[i]);
-			solve(i + 1, current, vowelCount + (isCurrentCharVowel ? 1 : 0),
-				consonantCount + (isCurrentCharVowel ? 0 : 1));
+			solve(i + 1, current, vowelCount + (isVowel(alphabets[i]) ? 1 : 0));
 			current.remove(current.size() - 1);
 		}
 	}
