@@ -6,42 +6,38 @@ import java.util.StringTokenizer;
 
 public class Main {
 
+	// static FastReader scan = new FastReader("src/input/1.inp");
 	static FastReader scan = new FastReader();
-	static int n, s;
-	static int[] nums;
+	static StringBuilder sb = new StringBuilder();
+
+	static int n, s, answer;
+	static int[] arr;
 
 	public static void main(String[] args) {
 		init();
-		System.out.println(solve());
+		dfs(0, 0, 0);
+		System.out.println(answer);
 	}
 
-	static int solve() {
-		int count = 0;
-
-		for (int i = 1; i < (1 << n); i++) {
-			int sum = 0;
-
-			for (int j = 0; j < n; j++) {
-				if ((i & (1 << j)) != 0) {
-					sum += nums[j];
-				}
+	static void dfs(int index, int sum, int count) {
+		// base case - 모든 원소 확인 끝
+		if (index == n) {
+			if (count != 0 && sum == s) {
+				answer++;
 			}
-
-			if (sum == s) {
-				count++;
-			}
-
+			return;
 		}
-
-		return count;
+		// recursive case - 현재 원소를 포함하고 다음으로 진행 or 아니거나
+		dfs(index + 1, sum + arr[index], count + 1);
+		dfs(index + 1, sum, count);
 	}
 
 	static void init() {
 		n = scan.nextInt();
 		s = scan.nextInt();
-		nums = new int[n];
+		arr = new int[n];
 		for (int i = 0; i < n; i++) {
-			nums[i] = scan.nextInt();
+			arr[i] = scan.nextInt();
 		}
 	}
 
@@ -61,6 +57,22 @@ public class Main {
 			}
 		}
 
+		boolean hasNext() {
+			while (st == null || !st.hasMoreTokens()) {
+				try {
+					String line = br.readLine();
+					if (line == null) { // EOF에 도달하면 false 반환
+						return false;
+					}
+					st = new StringTokenizer(line);
+				} catch (IOException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
+			return true;
+		}
+
 		String next() {
 			while (st == null || !st.hasMoreElements()) {
 				try {
@@ -75,5 +87,16 @@ public class Main {
 		int nextInt() {
 			return Integer.parseInt(next());
 		}
+
+		String nextLine() {
+			String str = "";
+			try {
+				str = br.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return str;
+		}
+
 	}
 }
