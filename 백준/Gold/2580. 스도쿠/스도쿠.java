@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-    
+
 	static FastReader scan = new FastReader();
 
 	static final int EMPTY = 0;
@@ -15,12 +15,6 @@ public class Main {
 
 	// 탐색해야하는 좌표들
 	static List<Pair> targets = new ArrayList<>();
-
-	// area[x][y] := (x, y)가 몇 번째 영역에 속하는지 저장
-	static int[][] area = new int[9][9];
-
-	// areaStandard[i] := i번 area의 기준점 저장 (좌상단좌표)
-	static Pair[] areaStandard = new Pair[9];
 
 	public static void main(String[] args) {
 		init();
@@ -71,10 +65,8 @@ public class Main {
 	}
 
 	static boolean checkBox(int row, int col, int value) {
-		int areaIdx = area[row][col];
-		Pair standard = areaStandard[areaIdx];
-		int sx = standard.x;
-		int sy = standard.y;
+		int sx = 3 * (row / 3);
+		int sy = 3 * (col / 3);
 
 		for (int dx = 0; dx < 3; dx++) {
 			for (int dy = 0; dy < 3; dy++) {
@@ -83,7 +75,6 @@ public class Main {
 				}
 			}
 		}
-
 		return true;
 	}
 
@@ -116,24 +107,6 @@ public class Main {
 				}
 			}
 		}
-
-		int cnt = 0;
-
-		// 좌상단 좌표 기준
-		for (int x = 0; x < 9; x += 3) {
-			for (int y = 0; y < 9; y += 3) {
-
-				areaStandard[cnt] = new Pair(x, y);
-
-				for (int dx = 0; dx < 3; dx++) {
-					for (int dy = 0; dy < 3; dy++) {
-						area[x + dx][y + dy] = cnt;
-					}
-				}
-
-				cnt++;
-			}
-		}
 	}
 
 	static class Pair {
@@ -142,6 +115,14 @@ public class Main {
 		Pair(int x, int y) {
 			this.x = x;
 			this.y = y;
+		}
+
+		@Override
+		public String toString() {
+			return "Pair{" +
+				"x=" + x +
+				", y=" + y +
+				'}';
 		}
 	}
 
