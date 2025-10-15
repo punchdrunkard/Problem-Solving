@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
@@ -17,7 +16,6 @@ public class Main {
 	}
 
 	static int solve() {
-		// preprocess dp
 
 		// dp[i][c] := i번째 인덱스까지 봤을 때, 비용 c로 만들 수 있는 메모리의 최댓값
 		long[][] dp = new long[n + 1][100 * 100 + 1];
@@ -30,13 +28,25 @@ public class Main {
 			}
 		}
 
-		for (int cost = 0; cost <= 100 * 100; cost++) {
-			if (dp[n][cost] >= m) {
-				return cost;
+		return search(dp[n]);
+	}
+
+	static int search(long[] arr) {
+
+		int lo = -1;
+		int hi = 100 * 100 + 1;
+
+		while (lo + 1 < hi) {
+			int mid = lo + (hi - lo) / 2;
+
+			if (!(arr[mid] >= m)) {
+				lo = mid;
+			} else {
+				hi = mid;
 			}
 		}
 
-		return -1;
+		return hi;
 	}
 
 	static void init() {
