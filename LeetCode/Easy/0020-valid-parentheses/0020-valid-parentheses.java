@@ -2,40 +2,27 @@ class Solution {
     public boolean isValid(String s) {
         Deque<Character> stk = new ArrayDeque<>();
         
-        for (int i = 0; i < s.length(); i++) {
-            // 여는 괄호일 경우 넣는다.
-            char c = s.charAt(i);
+        Map<Character, Character> pairs = new HashMap<>();
+        pairs.put(')', '(');
+        pairs.put('}', '{');
+        pairs.put(']', '[');
 
-            if (stk.isEmpty() && !isOpenParentheses(c)) {
-                return false;
-            }
-
-            if (isOpenParentheses(c)) {
-                stk.offerLast(c);
-            } else { // 닫는 괄호인 경우
-                if (c == '}' && stk.peekLast() == '{') {
-                    stk.pollLast();
-                    continue;
-                } 
-
-                if (c == ')' && stk.peekLast() == '(') {
-                    stk.pollLast();
-                    continue;
+        for (char c: s.toCharArray()) {
+             if (pairs.containsKey(c)) { // 문자가 닫는 괄호인 경우
+                if (stk.isEmpty()) {
+                    return false;
                 }
 
-                if (c == ']' && stk.peekLast() == '[') {
-                    stk.pollLast();
-                    continue;
-                }
+                char bracket = stk.pop();
 
-                stk.offerLast(c);
-            }
+                if (bracket != pairs.get(c)) {
+                    return false;
+                }
+             } else { // 문자가 여는 괄호인 경우
+                stk.push(c);
+             }
         }
 
         return stk.isEmpty();
-    }
-
-    boolean isOpenParentheses(char c) {
-        return c == '(' || c == '[' || c == '{';
     }
 }
