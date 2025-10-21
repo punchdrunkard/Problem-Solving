@@ -1,31 +1,28 @@
 class Solution {
-
     int[] cache;
 
-    // TODO: 1 또는 2를 이용해서 n을 만드는 경우의 수 
     public int climbStairs(int n) {
-        cache = new int[n + 1];
-        Arrays.fill(cache, -1);
+        init(n);
         return climbStairsHelper(n);
     }
 
     int climbStairsHelper(int n) {
-        // base cae
-        if (n == 1) {
-            return 1; // 1
-        }
+        // base case
+        if (n == 0) return 1;  // 0계단: 1가지 (아무것도 안함)
+        if (n == 1) return 1;  // 1계단: 1가지 (1칸)
 
-        if (n == 2) {
-            return 2; // 1 + 1, 2 
-        }
-
-        // memoization
         if (cache[n] != -1) {
             return cache[n];
         }
 
-        // recursive case
+        // 점화식: f(n) = f(n-1) + f(n-2)
         cache[n] = climbStairsHelper(n - 1) + climbStairsHelper(n - 2);
+
         return cache[n];
+    }
+
+    void init(int n) {
+        cache = new int[n + 1];
+        Arrays.fill(cache, -1);
     }
 }
