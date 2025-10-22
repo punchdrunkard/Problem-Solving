@@ -9,14 +9,19 @@
  * }
  */
 class Solution {
+    // 리스트를 순회하면서 현재 노드의 next 포인터가 이전 노드를 가리키도록 방향을 바꿔야 한다 
     public ListNode reverseList(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
+        ListNode prev = null; // 이전 노드를 저장
+        ListNode current = head; // 현재 처리 중인 노드를 저장
+        ListNode nextTemp = new ListNode();
+
+        while (current != null) {
+            nextTemp = current.next;
+            current.next = prev;
+            prev=  current;
+            current = nextTemp;
         }
 
-        ListNode last = reverseList(head.next);
-        head.next.next = head;
-        head.next = null;
-        return last;
+        return prev;
     }
 }
