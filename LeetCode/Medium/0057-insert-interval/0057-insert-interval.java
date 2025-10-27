@@ -6,8 +6,7 @@ class Solution {
 
         // 1. newIntveral 이전에 끝나는 구간을 처리한다.
         while (i < n && intervals[i][1] < newInterval[0]) {
-            result.add(new int[]{intervals[i][0], intervals[i][1]});
-            i++;
+            result.add(intervals[i++]);
         }
 
         // 2. 겹쳐지는 구간을 처리한다.
@@ -21,8 +20,7 @@ class Solution {
 
         // 3. 나머지 부분을 처리한다 
         while (i < n) {
-            result.add(new int[]{intervals[i][0], intervals[i][1]});
-            i++;
+            result.add(intervals[i++]);
         }
 
         for (int j = 0; j < result.size(); j++) {
