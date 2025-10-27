@@ -23,13 +23,6 @@ class Solution {
             result.add(intervals[i++]);
         }
 
-        for (int j = 0; j < result.size(); j++) {
-            sout(Arrays.toString(result.get(j)));
-        }
-        return result.stream().toArray(int[][]::new);
+        return result.toArray(int[][]::new);
     }
-
-    void sout(Object o) {
-        System.out.println(o);
-    } 
 }
