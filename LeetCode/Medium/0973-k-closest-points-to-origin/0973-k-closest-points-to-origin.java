@@ -6,6 +6,6 @@ class Solution {
             return Long.compare(aDist, bDist);
         });
         
-        return Arrays.stream(points).limit(k).toArray(int[][]::new);
+        return Arrays.copyOfRange(points, 0, k);
     }
 }
